@@ -15,7 +15,7 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-[#2f2a2a] bg-[#1c1919] px-6 py-12">
+    <footer className="w-full border-t border-[#262626] bg-[#0a0a0a] px-6 py-12">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-6">
         <Link to="/" aria-label="KinSnap home">
           <KinLogo size={56} />

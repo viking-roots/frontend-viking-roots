@@ -92,7 +92,7 @@ export function DashboardSidebar() {
   const location = useLocation();
 
   return (
-    <aside className="sticky top-[57px] hidden h-[calc(100vh-57px)] w-52 shrink-0 flex-col border-r border-[#2f2a2a] bg-[#1c1919] py-6 lg:flex">
+    <aside className="sticky top-[57px] hidden h-[calc(100vh-57px)] w-52 shrink-0 flex-col border-r border-[#262626] bg-[#0a0a0a] py-6 lg:flex">
       <nav className="flex flex-1 flex-col gap-1 px-3">
         {navItems.map((item) => {
           const isActive = location.pathname === item.href;
@@ -103,7 +103,7 @@ export function DashboardSidebar() {
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
                 isActive
                   ? "bg-[#e4bd46]/10 text-[#e4bd46]"
-                  : "text-white/70 hover:bg-[#2f2a2a] hover:text-white"
+                  : "text-white/70 hover:bg-[#262626] hover:text-white"
               }`}
             >
               <span className={isActive ? "text-[#e4bd46]" : "text-white/50"}>
@@ -118,7 +118,7 @@ export function DashboardSidebar() {
       <div className="mt-auto px-3 pt-4">
         <Link
           to="/help"
-          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-white/50 transition-colors hover:bg-[#2f2a2a] hover:text-white"
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-white/50 transition-colors hover:bg-[#262626] hover:text-white"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10" />

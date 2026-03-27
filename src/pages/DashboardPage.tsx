@@ -55,7 +55,7 @@ const samplePosts = [
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-[#1c1919]">
+    <div className="min-h-screen bg-[#0a0a0a]">
       <DashboardNavbar />
 
       <div className="mx-auto flex max-w-7xl">
@@ -93,25 +93,25 @@ export default function DashboardPage() {
         </main>
 
         {/* Right sidebar */}
-        <aside className="sticky top-[57px] hidden h-[calc(100vh-57px)] w-72 shrink-0 flex-col gap-6 overflow-y-auto border-l border-[#2f2a2a] p-6 xl:flex">
+        <aside className="sticky top-[57px] hidden h-[calc(100vh-57px)] w-72 shrink-0 flex-col gap-6 overflow-y-auto border-l border-[#262626] p-6 xl:flex">
           {/* Story prompts */}
-          <div className="rounded-xl border border-[#2f2a2a] bg-[#1f1c1c] p-4">
+          <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
             <h3 className="mb-3 text-sm font-bold text-white">Story Prompts</h3>
             <div className="flex flex-col gap-3">
-              <button className="rounded-lg border border-[#2f2a2a] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
+              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
                 What is your earliest childhood memory?
               </button>
-              <button className="rounded-lg border border-[#2f2a2a] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
+              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
                 What traditions did your family keep?
               </button>
-              <button className="rounded-lg border border-[#2f2a2a] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
+              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
                 Who was the storyteller in your family?
               </button>
             </div>
           </div>
 
           {/* Suggested circles */}
-          <div className="rounded-xl border border-[#2f2a2a] bg-[#1f1c1c] p-4">
+          <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
             <h3 className="mb-3 text-sm font-bold text-white">Suggested Circles</h3>
             <div className="flex flex-col gap-3">
               {[
@@ -124,7 +124,7 @@ export default function DashboardPage() {
                     <p className="text-sm font-semibold text-white">{circle.name}</p>
                     <p className="text-xs text-white/40">{circle.members} members</p>
                   </div>
-                  <button className="rounded-full border border-[#e4bd46] px-3 py-1 text-xs font-bold text-[#e4bd46] transition-colors hover:bg-[#e4bd46] hover:text-[#1c1919]">
+                  <button className="rounded-full border border-[#e4bd46] px-3 py-1 text-xs font-bold text-[#e4bd46] transition-colors hover:bg-[#e4bd46] hover:text-[#0a0a0a]">
                     Join
                   </button>
                 </div>
@@ -133,14 +133,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Trending */}
-          <div className="rounded-xl border border-[#2f2a2a] bg-[#1f1c1c] p-4">
+          <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
             <h3 className="mb-3 text-sm font-bold text-white">Trending</h3>
             <div className="flex flex-wrap gap-2">
               {["#VintagePhotos", "#FamilyStories", "#GimliMB", "#IcelandicRoots", "#1950s", "#PrairieLife"].map(
                 (tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-[#2f2a2a] px-3 py-1 text-xs text-white/60 transition-colors hover:border-[#e4bd46]/40 hover:text-[#e4bd46]"
+                    className="rounded-full border border-[#262626] px-3 py-1 text-xs text-white/60 transition-colors hover:border-[#e4bd46]/40 hover:text-[#e4bd46]"
                   >
                     {tag}
                   </span>

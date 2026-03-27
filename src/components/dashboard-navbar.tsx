@@ -6,7 +6,7 @@ export function DashboardNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[#2f2a2a] bg-[#1c1919]">
+    <header className="sticky top-0 z-40 w-full border-b border-[#262626] bg-[#0a0a0a]">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
         {/* Logo */}
         <Link to="/dashboard" className="flex shrink-0 items-center gap-3">
@@ -21,7 +21,7 @@ export function DashboardNavbar() {
             height="18"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#6c5151"
+            stroke="#6b7280"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -35,7 +35,7 @@ export function DashboardNavbar() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search people, photos, circles..."
-            className="h-10 w-full rounded-full border border-[#2f2a2a] bg-[#1f1c1c] pl-10 pr-4 text-sm text-white placeholder-[#6c5151] outline-none transition-colors focus:border-[#e4bd46] focus:ring-1 focus:ring-[#e4bd46]/40"
+            className="h-10 w-full rounded-full border border-[#262626] bg-[#171717] pl-10 pr-4 text-sm text-white placeholder-[#6b7280] outline-none transition-colors focus:border-[#e4bd46] focus:ring-1 focus:ring-[#e4bd46]/40"
           />
         </div>
 
@@ -44,7 +44,7 @@ export function DashboardNavbar() {
           {/* Upload button */}
           <Link
             to="/dashboard"
-            className="hidden items-center gap-2 rounded-md border border-[#2f2a2a] bg-[#1f1c1c] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46] sm:flex"
+            className="hidden items-center gap-2 rounded-md border border-[#262626] bg-[#171717] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46] sm:flex"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 5v14M5 12h14" />
@@ -63,7 +63,7 @@ export function DashboardNavbar() {
 
           {/* User dropdown */}
           <button className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#e4bd46] text-sm font-bold text-[#1c1919]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#e4bd46] text-sm font-bold text-[#0a0a0a]">
               S
             </div>
             <span className="hidden text-sm font-semibold text-white sm:inline">Sarah</span>

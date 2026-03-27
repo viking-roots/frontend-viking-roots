@@ -18,7 +18,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="w-full bg-[#2f2a2a] px-6 py-16 lg:py-20">
+    <section className="w-full bg-[#262626] px-6 py-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <h2 className="mb-10 text-4xl font-bold text-white lg:text-5xl">
           How it works ?

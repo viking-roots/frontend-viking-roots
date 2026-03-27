@@ -105,7 +105,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
     <dialog
       ref={dialogRef}
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-50 m-auto w-full max-w-lg rounded-2xl bg-[#2f2a2a] p-8 shadow-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
+      className="fixed inset-0 z-50 m-auto w-full max-w-lg rounded-2xl bg-[#262626] p-8 shadow-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
     >
       {step === 1 ? (
         <>
@@ -175,7 +175,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
 
             <button
               type="submit"
-              className="mt-2 h-12 w-full rounded-full bg-[#e4bd46] text-base font-bold tracking-widest text-[#1c1919] transition-opacity hover:opacity-90"
+              className="mt-2 h-12 w-full rounded-full bg-[#e4bd46] text-base font-bold tracking-widest text-[#0a0a0a] transition-opacity hover:opacity-90"
             >
               NEXT
             </button>
@@ -209,14 +209,14 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 id="displayName"
                 type="text"
                 placeholder="John Doe"
-                className="h-10 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white placeholder-[#6c5151] outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-10 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-white">Photo (optional)</label>
               <div className="flex items-center gap-4">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#6c5151]/40">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#6b7280]/40">
                   {photoPreview ? (
                     <img
                       src={photoPreview}
@@ -228,7 +228,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                       viewBox="0 0 64 64"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-12 w-12 text-[#6c5151]"
+                      className="h-12 w-12 text-[#6b7280]"
                     >
                       <circle cx="32" cy="24" r="12" fill="currentColor" />
                       <path
@@ -260,13 +260,13 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-white">Phone Verification</label>
               <div className="flex gap-2">
-                <div className="flex h-10 w-14 shrink-0 items-center justify-center rounded-md border border-[#6c5151] bg-transparent text-sm font-semibold text-white">
+                <div className="flex h-10 w-14 shrink-0 items-center justify-center rounded-md border border-[#6b7280] bg-transparent text-sm font-semibold text-white">
                   +1
                 </div>
                 <input
                   type="tel"
                   placeholder="(202) 555-0123"
-                  className="h-10 flex-1 rounded-md border border-[#6c5151] bg-transparent px-3 text-sm text-white placeholder-[#6c5151] outline-none focus:border-[#e4bd46] focus:ring-2 focus:ring-[#e4bd46]/60"
+                  className="h-10 flex-1 rounded-md border border-[#6b7280] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:border-[#e4bd46] focus:ring-2 focus:ring-[#e4bd46]/60"
                 />
                 <button
                   type="button"
@@ -275,7 +275,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                   Verify
                 </button>
               </div>
-              <p className="text-xs text-[#6c5151]">
+              <p className="text-xs text-[#6b7280]">
                 Receive a code via SMS to confirm your phone number
               </p>
             </div>
@@ -297,13 +297,13 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#1c1919] transition-opacity hover:opacity-90"
+                className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
               >
                 Back
               </button>
               <button
                 type="submit"
-                className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#1c1919] transition-opacity hover:opacity-90"
+                className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
               >
                 Continue
               </button>
@@ -385,7 +385,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#1c1919] transition-opacity hover:opacity-90"
+              className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
             >
               Back
             </button>
@@ -395,7 +395,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 onClose();
                 navigate("/welcome");
               }}
-              className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#1c1919] transition-opacity hover:opacity-90"
+              className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
             >
               Save
             </button>

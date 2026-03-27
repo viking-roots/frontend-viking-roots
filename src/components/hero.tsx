@@ -6,14 +6,14 @@ export function Hero() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#1f1c1c]">
+    <section className="relative w-full overflow-hidden bg-[#171717]">
       <img
         src="/HeroImageRight 2.png"
         alt="Historical portrait photograph"
         className="absolute inset-0 h-full w-full object-cover object-left"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1f1c1c]/30 to-[#1f1c1c]/90" />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#171717]/30 to-[#171717]/90" />
 
       <div className="relative z-10 mx-auto flex min-h-[520px] max-w-7xl items-center md:min-h-[620px] lg:min-h-[700px]">
         <div className="ml-auto flex w-full flex-col justify-center gap-6 px-8 py-16 md:w-[60%] md:py-24 lg:w-[55%] lg:px-16">
@@ -28,7 +28,7 @@ export function Hero() {
           <div className="flex flex-wrap gap-4">
             <button
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center justify-center rounded-md bg-[#e4bd46] px-6 py-3 text-base font-bold text-[#1c1919] transition-opacity hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-md bg-[#e4bd46] px-6 py-3 text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
             >
               Create An Account
             </button>

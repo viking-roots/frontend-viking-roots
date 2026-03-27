@@ -44,7 +44,7 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
     <dialog
       ref={dialogRef}
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-50 m-auto w-full max-w-md rounded-2xl bg-[#2f2a2a] p-8 shadow-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
+      className="fixed inset-0 z-50 m-auto w-full max-w-md rounded-2xl bg-[#262626] p-8 shadow-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
     >
       <div className="mb-8 flex items-center gap-3">
         <KinLogo size={48} />
@@ -87,7 +87,7 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
 
         <button
           type="submit"
-          className="mt-2 h-12 w-full rounded-full bg-[#e4bd46] text-base font-bold tracking-widest text-[#1c1919] transition-opacity hover:opacity-90"
+          className="mt-2 h-12 w-full rounded-full bg-[#e4bd46] text-base font-bold tracking-widest text-[#0a0a0a] transition-opacity hover:opacity-90"
         >
           SIGN IN
         </button>

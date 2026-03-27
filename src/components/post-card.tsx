@@ -41,11 +41,11 @@ export function PostCard({
   }
 
   return (
-    <article className="overflow-hidden rounded-xl border border-[#2f2a2a] bg-[#1f1c1c]">
+    <article className="overflow-hidden rounded-xl border border-[#262626] bg-[#171717]">
       {/* Post header */}
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e4bd46] text-sm font-bold text-[#1c1919]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e4bd46] text-sm font-bold text-[#0a0a0a]">
             {authorInitial}
           </div>
           <div>
@@ -53,7 +53,7 @@ export function PostCard({
               <span className="text-sm font-bold text-white">{authorName}</span>
               <span className="text-xs text-white/40">•</span>
               <span className="text-xs font-semibold text-[#e4bd46]">{circleName}</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6c5151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9l6 6 6-6" />
               </svg>
             </div>
@@ -84,7 +84,7 @@ export function PostCard({
       </div>
 
       {/* Post image */}
-      <div className="relative aspect-[4/3] w-full bg-[#2f2a2a]">
+      <div className="relative aspect-[4/3] w-full bg-[#262626]">
         <div className="flex h-full w-full items-center justify-center">
           <div className="text-center text-white/20">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2">
@@ -112,7 +112,7 @@ export function PostCard({
       </div>
 
       {/* Engagement bar */}
-      <div className="flex items-center justify-between border-b border-[#2f2a2a] px-4 py-2.5">
+      <div className="flex items-center justify-between border-b border-[#262626] px-4 py-2.5">
         <div className="flex items-center gap-5">
           <button onClick={handleLike} className="flex items-center gap-1.5 text-sm transition-colors">
             <svg width="18" height="18" viewBox="0 0 24 24" fill={liked ? "#e4bd46" : "none"} stroke={liked ? "#e4bd46" : "white"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -159,12 +159,12 @@ export function PostCard({
       <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
         <span className="text-xs font-semibold text-white/40">Tagged:</span>
         {tags.map((tag) => (
-          <button key={tag.name} className="rounded-full border border-[#2f2a2a] px-3 py-1 text-xs font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46]">
+          <button key={tag.name} className="rounded-full border border-[#262626] px-3 py-1 text-xs font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46]">
             {tag.name}
             {tag.detail && <span className="ml-1 text-white/40">{tag.detail}</span>}
           </button>
         ))}
-        <button className="rounded-full border border-dashed border-[#6c5151] px-3 py-1 text-xs font-semibold text-[#6c5151] transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46]">
+        <button className="rounded-full border border-dashed border-[#6b7280] px-3 py-1 text-xs font-semibold text-[#6b7280] transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46]">
           + Tag
         </button>
       </div>
@@ -175,14 +175,14 @@ export function PostCard({
       </div>
 
       {/* Comment input */}
-      <div className="flex items-center gap-3 border-t border-[#2f2a2a] px-4 py-3">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e4bd46] text-xs font-bold text-[#1c1919]">
+      <div className="flex items-center gap-3 border-t border-[#262626] px-4 py-3">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e4bd46] text-xs font-bold text-[#0a0a0a]">
           S
         </div>
         <input
           type="text"
           placeholder="Write a comment..."
-          className="h-9 flex-1 rounded-full border border-[#2f2a2a] bg-transparent px-4 text-sm text-white placeholder-[#6c5151] outline-none transition-colors focus:border-[#e4bd46]"
+          className="h-9 flex-1 rounded-full border border-[#262626] bg-transparent px-4 text-sm text-white placeholder-[#6b7280] outline-none transition-colors focus:border-[#e4bd46]"
         />
         <button className="text-white/40 transition-colors hover:text-[#e4bd46]">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

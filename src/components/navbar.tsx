@@ -9,7 +9,7 @@ export function Navbar() {
   const [signUpOpen, setSignUpOpen] = useState(false);
 
   return (
-    <header className="w-full border-b border-[#2f2a2a] bg-[#1c1919]">
+    <header className="w-full border-b border-[#262626] bg-[#0a0a0a]">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4"
         aria-label="Main navigation"
