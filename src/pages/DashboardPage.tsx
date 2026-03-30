@@ -1,59 +1,62 @@
+import { useEffect, useState } from "react";
 import { DashboardNavbar } from "@/components/dashboard-navbar";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
-import { PostCard } from "@/components/post-card";
+import { PostCard, PostCardProps } from "@/components/post-card";
 import { NudgeBubble } from "@/components/nudge-bubble";
+import { API_ENDPOINTS } from "@/config/api";
 
-const samplePosts = [
-  {
-    authorName: "Sarah Jónsdóttir",
-    authorInitial: "S",
-    circleName: "Family Circle",
-    timeAgo: "3h ago",
-    location: "Gimli, MB",
-    likes: 24,
-    comments: 7,
-    tags: [
-      { name: "Jónas Bristow" },
-      { name: "Anna Bristow" },
-      { name: "Martha", detail: "(age 6)" },
-      { name: "David", detail: "(age 4)" },
-    ],
-    caption: "Summer 1958 – New car from Winnipeg! Dad was so proud of this Buick.",
-    imagePlaceholder: "Family with 1958 Buick",
-  },
-  {
-    authorName: "Robert & Elín",
-    authorInitial: "R",
-    circleName: "Iceland Trip Circle",
-    timeAgo: "Yesterday",
-    location: "Reykjavik, Iceland",
-    likes: 41,
-    comments: 12,
-    tags: [
-      { name: "Robert Sigurdson" },
-      { name: "Elín Björk" },
-    ],
-    caption: "Our grandparents visited this exact waterfall in 1932. 90 years later, we're standing in the same spot.",
-    imagePlaceholder: "Waterfall in Iceland",
-  },
-  {
-    authorName: "Karen Erikkson",
-    authorInitial: "K",
-    circleName: "Heritage Circle",
-    timeAgo: "2 days ago",
-    location: "Winnipeg, MB",
-    likes: 18,
-    comments: 3,
-    tags: [
-      { name: "Erik Erikkson" },
-      { name: "Sigrid Erikkson" },
-    ],
-    caption: "Found this in the attic — my grandparents on their wedding day, 1947. Does anyone recognize the church?",
-    imagePlaceholder: "Wedding photo from 1947",
-  },
-];
+interface ApiPost {
+  id: number;
+  author: { id: number; username: string; profile_picture_url: string | null };
+  content: string;
+  image_url: string | null;
+  tagged_users: { id: number; username: string }[];
+  like_count: number;
+  comment_count: number;
+  liked_by_me: boolean;
+  group: { id: number; name: string } | null;
+  created_at: string;
+}
+
+function mapPost(p: ApiPost): PostCardProps {
+  return {
+    postId: p.id,
+    authorUsername: p.author.username,
+    authorProfilePicUrl: p.author.profile_picture_url,
+    groupName: p.group?.name ?? null,
+    createdAt: p.created_at,
+    imageUrl: p.image_url,
+    likeCount: p.like_count,
+    commentCount: p.comment_count,
+    likedByMe: p.liked_by_me,
+    taggedUsers: p.tagged_users,
+    content: p.content,
+  };
+}
 
 export default function DashboardPage() {
+  const [posts, setPosts] = useState<PostCardProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    fetch(API_ENDPOINTS.POSTS, {
+      credentials: 'include',
+      headers: token ? { Authorization: `Token ${token}` } : {},
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.posts) {
+          setPosts(data.posts.map(mapPost));
+        } else {
+          setError('Failed to load posts.');
+        }
+      })
+      .catch(() => setError('Network error loading posts.'))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <DashboardNavbar />
@@ -64,31 +67,29 @@ export default function DashboardPage() {
         {/* Main feed */}
         <main className="flex-1 px-4 py-6 md:px-8">
           <div className="mx-auto max-w-2xl">
-            <div className="flex flex-col gap-6">
-              <PostCard {...samplePosts[0]} />
-
-              <NudgeBubble
-                question="What was the first car you ever bought?"
-                primaryAction="Answer"
-                secondaryAction="Remind me later"
-              />
-
-              <PostCard {...samplePosts[1]} />
-
-              <NudgeBubble
-                question="Want to add their grandparents?"
-                primaryAction="Yes"
-                secondaryAction="Not now"
-              />
-
-              <PostCard {...samplePosts[2]} />
-
-              <NudgeBubble
-                question="Where was this photo taken?"
-                primaryAction="Answer"
-                secondaryAction="Later"
-              />
-            </div>
+            {loading ? (
+              <p className="text-center text-white/40 py-12">Loading posts...</p>
+            ) : error ? (
+              <p className="text-center text-red-400 py-12">{error}</p>
+            ) : posts.length === 0 ? (
+              <p className="text-center text-white/40 py-12">No posts yet. Be the first to post!</p>
+            ) : (
+              <div className="flex flex-col gap-6">
+                {posts.map((post, i) => (
+                  <>
+                    <PostCard key={post.postId} {...post} />
+                    {(i + 1) % 2 === 0 && (
+                      <NudgeBubble
+                        key={`nudge-${i}`}
+                        question="What traditions did your family keep?"
+                        primaryAction="Answer"
+                        secondaryAction="Later"
+                      />
+                    )}
+                  </>
+                ))}
+              </div>
+            )}
           </div>
         </main>
 
@@ -110,27 +111,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Suggested circles */}
-          <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
-            <h3 className="mb-3 text-sm font-bold text-white">Suggested Circles</h3>
-            <div className="flex flex-col gap-3">
-              {[
-                { name: "Gimli Saga Project", members: 234 },
-                { name: "Icelandic Heritage", members: 189 },
-                { name: "Prairie Families", members: 312 },
-              ].map((circle) => (
-                <div key={circle.name} className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-white">{circle.name}</p>
-                    <p className="text-xs text-white/40">{circle.members} members</p>
-                  </div>
-                  <button className="rounded-full border border-[#e4bd46] px-3 py-1 text-xs font-bold text-[#e4bd46] transition-colors hover:bg-[#e4bd46] hover:text-[#0a0a0a]">
-                    Join
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Groups sidebar widget */}
+          <GroupsSidebarWidget />
 
           {/* Trending */}
           <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
@@ -149,6 +131,39 @@ export default function DashboardPage() {
             </div>
           </div>
         </aside>
+      </div>
+    </div>
+  );
+}
+
+function GroupsSidebarWidget() {
+  const [groups, setGroups] = useState<{ id: number; name: string; member_count: number }[]>([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    fetch(API_ENDPOINTS.GROUPS, {
+      credentials: 'include',
+      headers: token ? { Authorization: `Token ${token}` } : {},
+    })
+      .then((r) => r.json())
+      .then((d) => { if (d.groups) setGroups(d.groups.slice(0, 3)); })
+      .catch(() => {});
+  }, []);
+
+  if (groups.length === 0) return null;
+
+  return (
+    <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
+      <h3 className="mb-3 text-sm font-bold text-white">Groups</h3>
+      <div className="flex flex-col gap-3">
+        {groups.map((g) => (
+          <div key={g.id} className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-white">{g.name}</p>
+              <p className="text-xs text-white/40">{g.member_count} members</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

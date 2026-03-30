@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useEffect, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import type { FamilyMember } from './GedcomToJSON';
 
 export type TimelineEvent = {
@@ -125,7 +125,6 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
 
   const accent = '#e4bd46';
   const accentBright = '#f5d670';
-  const accentDim = '#b2963a';
   const bgMain = '#2f2a2a';
   const bgCard = '#3a3434';
   const border = '#e4bd46';
@@ -316,7 +315,7 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
               scrollbarColor: `${border} transparent`,
             }}
           >
-            {decades.map((decade, decadeIdx) => (
+            {decades.map((decade) => (
               <div key={decade}>
                 {/* Decade marker */}
                 <div style={{

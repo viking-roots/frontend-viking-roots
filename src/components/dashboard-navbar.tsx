@@ -4,6 +4,8 @@ import { KinLogo } from "@/components/kin-logo";
 
 export function DashboardNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
+  const username = localStorage.getItem('username') || '';
+  const userInitial = username ? username[0].toUpperCase() : '?';
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#262626] bg-[#0a0a0a]">
@@ -62,15 +64,15 @@ export function DashboardNavbar() {
           </button>
 
           {/* User dropdown */}
-          <button className="flex items-center gap-2">
+          <Link to={username ? `/profile/${username}` : '/profile'} className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#e4bd46] text-sm font-bold text-[#0a0a0a]">
-              S
+              {userInitial}
             </div>
-            <span className="hidden text-sm font-semibold text-white sm:inline">Sarah</span>
+            <span className="hidden text-sm font-semibold text-white sm:inline">{username || 'Profile'}</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hidden sm:block">
               <path d="M6 9l6 6 6-6" />
             </svg>
-          </button>
+          </Link>
         </div>
       </nav>
     </header>
