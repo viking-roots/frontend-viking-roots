@@ -73,10 +73,16 @@ export default function UserProfile() {
               <p>Joined: {new Date(profile.created_at).toLocaleDateString()}</p>
             </div>
 
-            <div className="profile-actions">
+            <div className="profile-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '20px' }}>
+              {/* Community Actions */}
               <button onClick={() => navigate('/feed')}>Community Feed</button>
               <button onClick={() => navigate('/groups')}>Groups</button>
+              
+              {/* Heritage Tools */}
               <button onClick={() => navigate('/questionnaire')}>Questionnaire</button>
+              <button onClick={() => navigate('/familytree')}>View Family Tree</button>
+              <button onClick={() => navigate('/timeline')}>View Timeline</button>
+              <button onClick={() => navigate('/dashboard/upload')}>Upload GEDCOM File</button>
             </div>
           </section>
         )}
