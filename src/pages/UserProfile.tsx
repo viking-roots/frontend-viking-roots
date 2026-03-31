@@ -81,7 +81,6 @@ export default function UserProfile() {
               {/* Heritage Tools */}
               <button onClick={() => navigate('/questionnaire')}>Questionnaire</button>
               <button onClick={() => navigate('/familytree')}>View Family Tree</button>
-              <button onClick={() => navigate('/timeline')}>View Timeline</button>
               <button onClick={() => navigate('/dashboard/upload')}>Upload GEDCOM File</button>
             </div>
           </section>
