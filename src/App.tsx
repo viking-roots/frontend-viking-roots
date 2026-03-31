@@ -17,6 +17,7 @@ import ProfileSetup from "./pages/Profile";
 import HeritageDashboard from "./pages/HeritageDashboard";
 import ManualAncestoryEntry from "./pages/ManualAncestoryEntry";
 import UploadPage from "./pages/UploadPage";
+import FamilyTree from "./pages/FamilyTree";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
       <Route path="/heritage-dashboard" element={<HeritageDashboard />} />
       <Route path="/ancestor/add" element={<ManualAncestoryEntry />} />
       <Route path="/dashboard/upload" element={<UploadPage />} />
+      <Route path="/familytree" element={<FamilyTree />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
