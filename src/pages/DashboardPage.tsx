@@ -99,13 +99,13 @@ export default function DashboardPage() {
           <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
             <h3 className="mb-3 text-sm font-bold text-white">Story Prompts</h3>
             <div className="flex flex-col gap-3">
-              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
+              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
                 What is your earliest childhood memory?
               </button>
-              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
+              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
                 What traditions did your family keep?
               </button>
-              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#e4bd46]/40 hover:text-white">
+              <button className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
                 Who was the storyteller in your family?
               </button>
             </div>
@@ -122,7 +122,7 @@ export default function DashboardPage() {
                 (tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-[#262626] px-3 py-1 text-xs text-white/60 transition-colors hover:border-[#e4bd46]/40 hover:text-[#e4bd46]"
+                    className="rounded-full border border-[#262626] px-3 py-1 text-xs text-white/60 transition-colors hover:border-[#c88a65]/40 hover:text-[#c88a65]"
                   >
                     {tag}
                   </span>

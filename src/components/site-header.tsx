@@ -12,13 +12,13 @@ export function SiteHeader() {
         </Link>
 
         <nav className="flex items-center gap-3 sm:gap-5">
-          <Link to="/feed" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#e4bd46]">
+          <Link to="/feed" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#c88a65]">
             Feed
           </Link>
-          <Link to="/groups" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#e4bd46]">
+          <Link to="/groups" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#c88a65]">
             Groups
           </Link>
-          <Link to="/profile" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#e4bd46]">
+          <Link to="/profile" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#c88a65]">
             Profile
           </Link>
           <ThemeToggle />

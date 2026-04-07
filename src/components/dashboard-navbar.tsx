@@ -37,7 +37,7 @@ export function DashboardNavbar() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search people, photos, circles..."
-            className="h-10 w-full rounded-full border border-[#262626] bg-[#171717] pl-10 pr-4 text-sm text-white placeholder-[#6b7280] outline-none transition-colors focus:border-[#e4bd46] focus:ring-1 focus:ring-[#e4bd46]/40"
+            className="h-10 w-full rounded-full border border-[#262626] bg-[#171717] pl-10 pr-4 text-sm text-white placeholder-[#6b7280] outline-none transition-colors focus:border-[#c88a65] focus:ring-1 focus:ring-[#c88a65]/40"
           />
         </div>
 
@@ -46,7 +46,7 @@ export function DashboardNavbar() {
           {/* Upload button */}
           <Link
             to="/dashboard"
-            className="hidden items-center gap-2 rounded-md border border-[#262626] bg-[#171717] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46] sm:flex"
+            className="hidden items-center gap-2 rounded-md border border-[#262626] bg-[#171717] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[#c88a65] hover:text-[#c88a65] sm:flex"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 5v14M5 12h14" />
@@ -55,17 +55,17 @@ export function DashboardNavbar() {
           </Link>
 
           {/* Notifications */}
-          <button className="relative rounded-full p-2 text-white/60 transition-colors hover:text-[#e4bd46]">
+          <button className="relative rounded-full p-2 text-white/60 transition-colors hover:text-[#c88a65]">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
-            <span className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full bg-[#e4bd46]" />
+            <span className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full bg-[#c88a65]" />
           </button>
 
           {/* User dropdown */}
           <Link to={username ? `/profile/${username}` : '/profile'} className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#e4bd46] text-sm font-bold text-[#0a0a0a]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#c88a65] text-sm font-bold text-[#0a0a0a]">
               {userInitial}
             </div>
             <span className="hidden text-sm font-semibold text-white sm:inline">{username || 'Profile'}</span>

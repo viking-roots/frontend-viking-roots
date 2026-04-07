@@ -131,7 +131,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 id="fullName"
                 type="text"
                 required
-                className="h-10 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-10 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#c88a65]/60"
               />
             </div>
 
@@ -145,7 +145,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-10 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#c88a65]/60"
               />
             </div>
 
@@ -157,7 +157,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 id="password"
                 type="password"
                 required
-                className="h-10 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-10 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#c88a65]/60"
               />
             </div>
 
@@ -169,13 +169,13 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 id="confirmPassword"
                 type="password"
                 required
-                className="h-10 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-10 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#c88a65]/60"
               />
             </div>
 
             <button
               type="submit"
-              className="mt-2 h-12 w-full rounded-full bg-[#e4bd46] text-base font-bold tracking-widest text-[#0a0a0a] transition-opacity hover:opacity-90"
+              className="mt-2 h-12 w-full rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold tracking-widest text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
             >
               NEXT
             </button>
@@ -188,7 +188,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
               Profile Setup
             </h2>
           </div>
-          <div className="mb-5 border-b border-[#e4bd46]" />
+          <div className="mb-5 border-b border-[#c88a65]" />
 
           <p className="mb-5 text-center text-sm font-semibold text-white">
             Confirm Your Identity
@@ -209,7 +209,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 id="displayName"
                 type="text"
                 placeholder="John Doe"
-                className="h-10 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-10 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:ring-2 focus:ring-[#c88a65]/60"
               />
             </div>
 
@@ -243,7 +243,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
 
                 <label
                   htmlFor="photoUpload"
-                  className="cursor-pointer rounded-md border border-white px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46]"
+                  className="cursor-pointer rounded-md border border-white px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-[#c88a65] hover:text-[#c88a65]"
                 >
                   Upload Photo
                   <input
@@ -266,11 +266,11 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 <input
                   type="tel"
                   placeholder="(202) 555-0123"
-                  className="h-10 flex-1 rounded-md border border-[#6b7280] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:border-[#e4bd46] focus:ring-2 focus:ring-[#e4bd46]/60"
+                  className="h-10 flex-1 rounded-md border border-[#6b7280] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:border-[#c88a65] focus:ring-2 focus:ring-[#c88a65]/60"
                 />
                 <button
                   type="button"
-                  className="h-10 rounded-md border border-white px-4 text-sm font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46]"
+                  className="h-10 rounded-md border border-white px-4 text-sm font-semibold text-white transition-colors hover:border-[#c88a65] hover:text-[#c88a65]"
                 >
                   Verify
                 </button>
@@ -289,7 +289,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 type="text"
                 inputMode="numeric"
                 maxLength={6}
-                className="h-10 w-36 rounded-md border border-[#e4bd46] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-10 w-36 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#c88a65]/60"
               />
             </div>
 
@@ -297,13 +297,13 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
+                className="h-12 flex-1 rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
               >
                 Back
               </button>
               <button
                 type="submit"
-                className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
+                className="h-12 flex-1 rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
               >
                 Continue
               </button>
@@ -332,11 +332,11 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
           <h2 className="mb-3 text-center text-2xl font-bold text-white">
             Verify your email Address
           </h2>
-          <div className="mb-5 border-b border-[#e4bd46]" />
+          <div className="mb-5 border-b border-[#c88a65]" />
 
           <p className="mb-1 text-center text-sm text-white">
             A verification code has been sent to{" "}
-            <span className="font-semibold text-[#e4bd46]">{email || "JohnDoe@gmail.com"}</span>
+            <span className="font-semibold text-[#c88a65]">{email || "JohnDoe@gmail.com"}</span>
           </p>
           <p className="mb-6 text-center text-sm text-white">
             Please check your inbox and enter the verification code below to verify your email
@@ -357,7 +357,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 value={otp[i]}
                 onChange={(e) => handleOtpChange(i, e.target.value)}
                 onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                className="h-12 w-12 rounded-md border border-[#e4bd46] bg-transparent text-center text-lg font-bold text-white outline-none focus:ring-2 focus:ring-[#e4bd46]/60"
+                className="h-12 w-12 rounded-md border border-[#c88a65] bg-transparent text-center text-lg font-bold text-white outline-none focus:ring-2 focus:ring-[#c88a65]/60"
               />
             ))}
           </div>
@@ -365,7 +365,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
           <div className="mb-3 flex justify-center">
             <button
               type="button"
-              className="h-11 w-40 rounded-md border border-white text-sm font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46]"
+              className="h-11 w-40 rounded-md border border-white text-sm font-semibold text-white transition-colors hover:border-[#c88a65] hover:text-[#c88a65]"
             >
               Verify
             </button>
@@ -385,7 +385,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
+              className="h-12 flex-1 rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
             >
               Back
             </button>
@@ -395,7 +395,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
                 onClose();
                 navigate("/welcome");
               }}
-              className="h-12 flex-1 rounded-full bg-[#e4bd46] text-base font-bold text-[#0a0a0a] transition-opacity hover:opacity-90"
+              className="h-12 flex-1 rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
             >
               Save
             </button>

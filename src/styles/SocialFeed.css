@@ -57,7 +57,7 @@
   display: inline-flex;
   gap: 0.35rem;
   align-items: center;
-  background: #e4bd46;
+  background: #c88a65;
   color: #111;
   border-radius: 999px;
   padding: 0.22rem 0.6rem;
@@ -103,8 +103,8 @@
 
 .post-submit-btn,
 .error-state button {
-  border: 1px solid #e4bd46;
-  background: #e4bd46;
+  border: 1px solid #c88a65;
+  background: #c88a65;
   color: #111;
   font-weight: 700;
   border-radius: 999px;
@@ -132,7 +132,7 @@
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  background: #e4bd46;
+  background: #c88a65;
   color: #111;
   font-weight: 700;
 }
@@ -162,8 +162,8 @@
 }
 
 .action-btn.liked {
-  border-color: #e4bd46;
-  color: #e4bd46;
+  border-color: #c88a65;
+  color: #c88a65;
 }
 
 .comment-input-row {

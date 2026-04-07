@@ -22,13 +22,13 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <Link
             to="/projects"
-            className="text-base font-semibold text-white transition-colors hover:text-[#e4bd46]"
+            className="text-base font-semibold text-white transition-colors hover:text-[#c88a65]"
           >
             Explore A Project
           </Link>
           <button
             onClick={() => setLoginOpen(true)}
-            className="text-base font-semibold text-white transition-colors hover:text-[#e4bd46]"
+            className="text-base font-semibold text-white transition-colors hover:text-[#c88a65]"
           >
             Log In
           </button>

@@ -72,8 +72,8 @@
 .submit-btn,
 .add-member-btn,
 .post-submit-btn {
-  border: 1px solid #e4bd46;
-  background: #e4bd46;
+  border: 1px solid #c88a65;
+  background: #c88a65;
   color: #111;
   border-radius: 999px;
   padding: 0.45rem 0.85rem;
@@ -145,8 +145,8 @@
 }
 
 .member-search-item button {
-  border: 1px solid #e4bd46;
-  background: #e4bd46;
+  border: 1px solid #c88a65;
+  background: #c88a65;
   color: #111;
   border-radius: 999px;
   padding: 0.2rem 0.6rem;
