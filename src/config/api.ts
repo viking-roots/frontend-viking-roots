@@ -24,4 +24,9 @@ export const API_ENDPOINTS = {
   CREATE_GROUP: `${API_BASE_URL}/api/community/groups/create/`,
   LIKE_POST: (id: number) => `${API_BASE_URL}/api/community/posts/${id}/like/`,
   POST_COMMENTS: (id: number) => `${API_BASE_URL}/api/community/posts/${id}/comments/`,
+
+  // AI Memory Lane (Stories)
+  STORY_PROMPTS: `${API_BASE_URL}/api/ai_interview/story/prompts/`,
+  STORY_START: `${API_BASE_URL}/api/ai_interview/story/start/`,
+  STORY_MESSAGE: `${API_BASE_URL}/api/ai_interview/story/message/`,
 } as const;
