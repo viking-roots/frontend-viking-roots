@@ -8,16 +8,18 @@ interface TaggedUser {
 
 export interface PostCardProps {
   post: {
-    id: number; // Assuming your API returns 'id' instead of 'postId'
-    authorUsername: string;
-    authorProfilePicUrl: string | null;
-    groupName: string | null;
-    createdAt: string;
-    imageUrl: string | null;
-    likeCount: number;
-    commentCount: number;
-    likedByMe: boolean;
-    taggedUsers: TaggedUser[];
+    id: number;
+    author: {
+      username: string;
+      profile_picture_url: string | null;
+    };
+    group?: { name: string } | null;
+    created_at: string;
+    image_url: string | null;
+    like_count: number;
+    comment_count: number;
+    liked_by_me: boolean;
+    tagged_users: TaggedUser[];
     content: string;
   };
 }
@@ -35,20 +37,17 @@ function timeAgo(isoDate: string): string {
 }
 
 export function PostCard({ post }: PostCardProps) {
-  // Destructure everything out of the post object so the rest of your code below stays exactly the same!
-  const {
-    id: postId, // we alias 'id' to 'postId' here so your API calls still work perfectly
-    authorUsername,
-    authorProfilePicUrl,
-    groupName,
-    createdAt,
-    imageUrl,
-    likeCount,
-    commentCount,
-    likedByMe,
-    taggedUsers,
-    content,
-  } = post;
+  const postId = post.id;
+  const authorUsername = post.author?.username || "Unknown";
+  const authorProfilePicUrl = post.author?.profile_picture_url;
+  const groupName = post.group?.name;
+  const createdAt = post.created_at;
+  const imageUrl = post.image_url;
+  const likeCount = post.like_count || 0;
+  const commentCount = post.comment_count || 0;
+  const likedByMe = post.liked_by_me || false;
+  const taggedUsers = post.tagged_users || [];
+  const content = post.content || "";
 
   const [liked, setLiked] = useState(likedByMe);
   const [likes, setLikes] = useState(likeCount);
