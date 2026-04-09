@@ -7,18 +7,21 @@ interface TaggedUser {
 }
 
 export interface PostCardProps {
-  postId: number;
-  authorUsername: string;
-  authorProfilePicUrl: string | null;
-  groupName: string | null;
-  createdAt: string;
-  imageUrl: string | null;
-  likeCount: number;
-  commentCount: number;
-  likedByMe: boolean;
-  taggedUsers: TaggedUser[];
-  content: string;
+  post: {
+    id: number; // Assuming your API returns 'id' instead of 'postId'
+    authorUsername: string;
+    authorProfilePicUrl: string | null;
+    groupName: string | null;
+    createdAt: string;
+    imageUrl: string | null;
+    likeCount: number;
+    commentCount: number;
+    likedByMe: boolean;
+    taggedUsers: TaggedUser[];
+    content: string;
+  };
 }
+
 
 function timeAgo(isoDate: string): string {
   const diff = Date.now() - new Date(isoDate).getTime();
@@ -31,19 +34,22 @@ function timeAgo(isoDate: string): string {
   return `${days}d ago`;
 }
 
-export function PostCard({
-  postId,
-  authorUsername,
-  authorProfilePicUrl,
-  groupName,
-  createdAt,
-  imageUrl,
-  likeCount,
-  commentCount,
-  likedByMe,
-  taggedUsers,
-  content,
-}: PostCardProps) {
+export function PostCard({ post }: PostCardProps) {
+  // Destructure everything out of the post object so the rest of your code below stays exactly the same!
+  const {
+    id: postId, // we alias 'id' to 'postId' here so your API calls still work perfectly
+    authorUsername,
+    authorProfilePicUrl,
+    groupName,
+    createdAt,
+    imageUrl,
+    likeCount,
+    commentCount,
+    likedByMe,
+    taggedUsers,
+    content,
+  } = post;
+
   const [liked, setLiked] = useState(likedByMe);
   const [likes, setLikes] = useState(likeCount);
   const [saved, setSaved] = useState(false);
