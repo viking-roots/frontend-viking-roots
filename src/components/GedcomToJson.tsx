@@ -78,22 +78,24 @@ export class AncestryGedcomParser {
   private currentRecord: 'INDI' | 'FAM' | 'SOUR' | 'OBJE' | 'SUBM' | null = null;
   private currentId: string = '';
   private currentTag: string = '';
+  private currentLevel: number = 0;
   private tagStack: Array<{ level: number; tag: string }> = [];
+  private tempEvent: any = null;
 
   parseGedcom(gedcomContent: string): FamilyMember[] {
     this.reset();
     const lines = gedcomContent.split('\n');
-    
+
     lines.forEach(line => {
       if (line.trim() === '') return;
-      
+
       const parsedLine = this.parseLine(line);
       if (!parsedLine) return;
-      
+
       const { level, tag, pointer, value } = parsedLine;
       this.processLine(level, tag, pointer, value);
     });
-    
+
     return this.convertToFamilyMemberFormat();
   }
 
@@ -105,22 +107,22 @@ export class AncestryGedcomParser {
   } | null {
     line = line.trim().replace(/\r$/, '');
     if (!line) return null;
-    
+
     const levelMatch = line.match(/^(\d+)\s+/);
     if (!levelMatch) return null;
-    
+
     const level = parseInt(levelMatch[1], 10);
     const rest = line.substring(levelMatch[0].length).trim();
-    
+
     let pointer = null;
     let tag = '';
     let value = '';
-    
+
     const pointerMatch = rest.match(/^@([^@]+)@/);
     if (pointerMatch) {
       pointer = pointerMatch[1];
       const afterPointer = rest.substring(pointerMatch[0].length).trim();
-      
+
       const tagMatch = afterPointer.match(/^(\S+)/);
       if (tagMatch) {
         tag = tagMatch[1];
@@ -137,7 +139,7 @@ export class AncestryGedcomParser {
         tag = rest;
       }
     }
-    
+
     return { level, tag, pointer, value };
   }
 
@@ -146,7 +148,7 @@ export class AncestryGedcomParser {
       this.tagStack.pop();
     }
     this.tagStack.push({ level, tag });
-    
+
     if (level === 0 && pointer) {
       switch (tag) {
         case 'INDI':
@@ -170,21 +172,21 @@ export class AncestryGedcomParser {
       }
       return;
     }
-    
+
     switch (this.currentRecord) {
       case 'INDI':
-        this.processIndividualLine(tag, value);
+        this.processIndividualLine(level, tag, value);
         break;
       case 'FAM':
-        this.processFamilyLine(tag, value);
+        this.processFamilyLine(level, tag, value);
         break;
     }
   }
 
-  private processIndividualLine(tag: string, value: string): void {
+  private processIndividualLine(level: number, tag: string, value: string): void {
     const individual = this.individuals.get(this.currentId);
     if (!individual) return;
-    
+
     switch (tag) {
       case 'NAME':
         this.processName(value, individual);
@@ -254,7 +256,7 @@ export class AncestryGedcomParser {
     let surname = '';
     let given = '';
     let suffix = '';
-    
+
     if (surnameMatch) {
       surname = surnameMatch[1].trim();
       const parts = trimmedName.split('/');
@@ -263,7 +265,7 @@ export class AncestryGedcomParser {
     } else {
       given = trimmedName;
     }
-    
+
     individual.name = {
       given: given || '',
       surname: surname || '',
@@ -273,11 +275,11 @@ export class AncestryGedcomParser {
 
   parseDate(dateStr: string): string {
     if (!dateStr) return '';
-    
+
     const cleanDate = dateStr
       .replace(/^(ABT|BEF|AFT|CAL|EST)\s+/i, '')
       .trim();
-    
+
     try {
       const date = new Date(cleanDate);
       if (!isNaN(date.getTime())) {
@@ -290,17 +292,17 @@ export class AncestryGedcomParser {
     } catch (e) {
       // continue
     }
-    
+
     const yearMatch = cleanDate.match(/\b(\d{4})\b/);
     if (yearMatch) return yearMatch[1];
-    
+
     return cleanDate;
   }
 
-  private processFamilyLine(tag: string, value: string): void {
+  private processFamilyLine(level: number, tag: string, value: string): void {
     const family = this.families.get(this.currentId);
     if (!family) return;
-    
+
     switch (tag) {
       case 'HUSB':
         family.husband = value.replace(/@/g, '');
@@ -334,7 +336,7 @@ export class AncestryGedcomParser {
 
   private convertToFamilyMemberFormat(): FamilyMember[] {
     const familyMembers: FamilyMember[] = [];
-    
+
     this.individuals.forEach((individual, id) => {
       const familyMember: FamilyMember = {
         id,
@@ -346,7 +348,7 @@ export class AncestryGedcomParser {
         },
         rels: {}
       };
-      
+
       if (individual.death?.date) {
         familyMember.data.death = individual.death.date;
       }
@@ -359,12 +361,12 @@ export class AncestryGedcomParser {
       if (individual.death?.place) {
         familyMember.data.deathPlace = individual.death.place;
       }
-      
+
       familyMembers.push(familyMember);
     });
-    
+
     const childToParentMap = new Map<string, {father?: string, mother?: string}>();
-    
+
     this.families.forEach(family => {
       if (family.children) {
         family.children.forEach(childId => {
@@ -377,7 +379,7 @@ export class AncestryGedcomParser {
         });
       }
     });
-    
+
     familyMembers.forEach(member => {
       const parents = childToParentMap.get(member.id);
       if (parents) {
@@ -385,7 +387,7 @@ export class AncestryGedcomParser {
         if (parents.father) member.rels.parents.push(parents.father);
         if (parents.mother) member.rels.parents.push(parents.mother);
       }
-      
+
       this.families.forEach(family => {
         if (family.husband === member.id && family.wife) {
           if (!member.rels.spouses) member.rels.spouses = [];
@@ -400,7 +402,7 @@ export class AncestryGedcomParser {
         }
       });
     });
-    
+
     familyMembers.forEach(parent => {
       this.families.forEach(family => {
         if ((family.husband === parent.id || family.wife === parent.id) && family.children) {
@@ -413,7 +415,7 @@ export class AncestryGedcomParser {
         }
       });
     });
-    
+
     return familyMembers;
   }
 
@@ -423,7 +425,9 @@ export class AncestryGedcomParser {
     this.currentRecord = null;
     this.currentId = '';
     this.currentTag = '';
+    this.currentLevel = 0;
     this.tagStack = [];
+    this.tempEvent = null;
   }
 
   /** Extract marriage events with names resolved */
@@ -463,33 +467,33 @@ export class AncestryGedcomParser {
 export async function parseGedcomFile(file: File): Promise<{ members: FamilyMember[]; marriages: MarriageEvent[] }> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    
+
     reader.onload = (event) => {
       try {
         const content = event.target?.result as string;
         const parser = new AncestryGedcomParser();
         const familyMembers = parser.parseGedcom(content);
-        
+
         if (familyMembers.length === 0) {
           throw new Error('No valid family data found in GEDCOM file');
         }
-        
+
         const marriages = parser.getMarriageEvents();
-        
+
         console.log('Parsed', familyMembers.length, 'family members');
         console.log('Parsed', marriages.length, 'marriage events');
-        
+
         resolve({ members: familyMembers, marriages });
       } catch (error) {
         console.error('Error parsing GEDCOM:', error);
         reject(new Error('Failed to parse GEDCOM file. Please ensure it\'s a valid GEDCOM 5.5 file.'));
       }
     };
-    
+
     reader.onerror = (error) => {
       reject(new Error('Failed to read file: ' + error));
     };
-    
+
     reader.readAsText(file);
   });
 }
@@ -501,14 +505,14 @@ export function getGedcomStats(gedcomContent: string): {
 } {
   const parser = new AncestryGedcomParser();
   const data = parser.parseGedcom(gedcomContent);
-  
+
   const familyCount = parser.families?.size || 0;
-  
+
   const sampleIndividuals = data.slice(0, 5).map(ind => ({
     id: ind.id,
     name: `${ind.data["first name"]} ${ind.data["last name"]}`.trim()
   }));
-  
+
   return {
     individualCount: data.length,
     familyCount,
