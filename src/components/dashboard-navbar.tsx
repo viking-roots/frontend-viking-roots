@@ -45,7 +45,7 @@ export function DashboardNavbar() {
         <div className="flex items-center gap-3">
           {/* Upload button */}
           <Link
-            to="/dashboard"
+            to="/dashboard/upload"
             className="hidden items-center gap-2 rounded-md border border-[#262626] bg-[#171717] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[#e4bd46] hover:text-[#e4bd46] sm:flex"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
