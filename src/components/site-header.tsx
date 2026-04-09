@@ -3,6 +3,7 @@ import { ThemeToggle } from './theme-toggle';
 import { KinLogo } from './kin-logo';
 
 export function SiteHeader() {
+  const username = localStorage.getItem('username') || '';
   return (
     <header className="sticky top-0 z-30 border-b border-[var(--surface-border)] bg-[var(--surface-bg)]/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
@@ -18,7 +19,7 @@ export function SiteHeader() {
           <Link to="/groups" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#e4bd46]">
             Groups
           </Link>
-          <Link to="/profile" className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#e4bd46]">
+          <Link to={username ? `/profile/${username}` : '/profile'} className="text-sm font-semibold text-[var(--surface-fg)]/85 hover:text-[#e4bd46]">
             Profile
           </Link>
           <ThemeToggle />

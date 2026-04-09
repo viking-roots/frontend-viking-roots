@@ -76,7 +76,10 @@ export function DashboardNavbar() {
           </button>
 
           {/* User dropdown */}
-          <Link to={username ? `/profile/${username}` : '/profile'} className="flex items-center gap-2">
+          <Link 
+            to={username ? `/profile/${username}` : '/profile'} 
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#e4bd46] text-sm font-bold text-[#0a0a0a]">
               {userInitial}
             </div>
