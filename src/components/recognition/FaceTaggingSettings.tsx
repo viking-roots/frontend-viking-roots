@@ -69,7 +69,7 @@ export function FaceTaggingSettings() {
             onClick={handleToggle}
             disabled={saving}
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-              settings.face_tagging_enabled ? 'bg-[#e4bd46]' : 'bg-[#262626]'
+              settings.face_tagging_enabled ? 'bg-[#c88a65]' : 'bg-[#262626]'
             }`}
           >
             <span
@@ -89,7 +89,7 @@ export function FaceTaggingSettings() {
             value={settings.tagging_scope}
             onChange={handleScopeChange}
             disabled={saving || !settings.face_tagging_enabled}
-            className="rounded-lg border border-[#262626] bg-[#0a0a0a] px-3 py-1 text-xs text-white outline-none focus:border-[#e4bd46]"
+            className="rounded-lg border border-[#262626] bg-[#0a0a0a] px-3 py-1 text-xs text-white outline-none focus:border-[#c88a65]"
           >
             <option value="friends_only">Friends Only</option>
             <option value="manual_approval">Manual Approval</option>

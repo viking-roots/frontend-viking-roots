@@ -103,12 +103,20 @@
 
 .post-submit-btn,
 .error-state button {
-  border: 1px solid #c88a65;
-  background: #c88a65;
-  color: #111;
+  border: none;
+  background: linear-gradient(to right, #c88a65 -55%, white);
+  color: #000;
   font-weight: 700;
   border-radius: 999px;
   padding: 0.5rem 0.95rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.post-submit-btn:hover:not(:disabled),
+.error-state button:hover:not(:disabled) {
+  background: linear-gradient(to right, #eab2a0, white);
+  color: white;
 }
 
 .post-header {

@@ -9,8 +9,11 @@ const footerLinks = [
 ];
 
 const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com" },
-  { label: "Instagram", href: "https://instagram.com" },
+  { label: "Facebook", href: "https://www.facebook.com/VikingRoots/", icon: "/socials/fb.png" },
+  { label: "Instagram", href: "https://www.instagram.com/vikingroots/", icon: "/socials/ig.png" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/vikingroots/", icon: "/socials/yt.png" },
+  { label: "TikTok", href: "https://www.tiktok.com/@thevikingroots", icon: "/socials/tk.png" },
+  { label: "X", href: "https://x.com/TheVikingRoots", icon: "/socials/x.png" },
 ];
 
 export function Footer() {
@@ -44,9 +47,14 @@ export function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-white/70 transition-colors hover:text-[#c88a65]"
+                  className="block transition-transform hover:scale-110"
+                  aria-label={link.label}
                 >
-                  {link.label}
+                  <img
+                    src={link.icon}
+                    alt={link.label}
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
                 </a>
               </li>
             ))}

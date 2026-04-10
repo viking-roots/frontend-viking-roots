@@ -39,7 +39,7 @@ export function NudgeBubble({
       <div className="mt-3 flex items-center gap-3">
         <button
           onClick={onPrimary}
-          className="rounded-full border border-[#c88a65] px-4 py-1.5 text-xs font-bold text-[#c88a65] transition-colors hover:bg-[#c88a65] hover:text-[#0a0a0a]"
+          className="rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-4 py-1.5 text-xs font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
         >
           {primaryAction}
         </button>

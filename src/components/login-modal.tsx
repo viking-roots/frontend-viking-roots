@@ -23,6 +23,8 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
   }, [open]);
 
   function handleBackdropClick(e: React.MouseEvent<HTMLDialogElement>) {
+    if (e.target !== dialogRef.current) return;
+    
     const rect = dialogRef.current?.getBoundingClientRect();
     if (!rect) return;
     const clickedOutside =
