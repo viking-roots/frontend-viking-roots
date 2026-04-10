@@ -89,7 +89,7 @@ export function FaceEnrollment() {
       <div className="mb-4 flex items-center justify-between">
         <div>
           <h3 className="text-lg font-bold text-white">Face Enrollment</h3>
-          <p className="text-sm text-white/50">Help KinSnap recognize you in photos shared by friends.</p>
+          <p className="text-sm text-white/50">Help Viking Roots recognize you in photos shared by friends.</p>
         </div>
         <div className={`px-3 py-1 rounded-full text-xs font-bold ${status?.is_enrolled ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'}`}>
           {status?.is_enrolled ? 'Enrolled' : 'Not Enrolled'}

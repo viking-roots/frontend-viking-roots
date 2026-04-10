@@ -40,7 +40,7 @@ export function Hero() {
           </h1>
           <p className="max-w-lg text-base leading-relaxed text-white/70">
             Old photographs often hold connections you may not even know exist.
-            KinSnap invites you to help identify people, preserve family stories,
+            Viking Roots invites you to help identify people, preserve family stories,
             and reconnect history through shared community projects.
           </p>
           <div className="flex flex-wrap gap-4">

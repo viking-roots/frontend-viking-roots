@@ -21,7 +21,7 @@ export default function WelcomePage() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center gap-3">
             <KinLogo />
-            <span className="text-xl font-bold text-white">KinSnap</span>
+            <span className="text-xl font-bold text-white">Viking Roots</span>
           </Link>
           <div className="flex items-center gap-4">
             <button className="rounded-full p-2 text-white/60 transition-colors hover:text-[#c88a65]">

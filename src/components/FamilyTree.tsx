@@ -459,7 +459,7 @@ const FamilyTree = () => {
             color: accent,
             letterSpacing: '0.12em',
           }}>
-            ✦ KinSnap ✦
+            ✦ Viking Roots ✦
           </h1>
           <div style={{
             height: 1,

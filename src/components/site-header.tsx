@@ -9,7 +9,7 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
         <Link to={username ? "/dashboard" : "/"} className="flex items-center gap-2">
           <KinLogo size={30} />
-          <span className="text-lg font-bold text-[var(--surface-fg)]">KinSnap</span>
+          <span className="text-lg font-bold text-[var(--surface-fg)]">Viking Roots</span>
         </Link>
 
         <nav className="flex items-center gap-3 sm:gap-5">

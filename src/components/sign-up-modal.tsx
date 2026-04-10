@@ -96,7 +96,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
       <>
         <div className="mb-6 flex items-center gap-3">
           <KinLogo size={48} />
-          <span className="text-2xl font-bold tracking-wide text-white">KinSnap</span>
+          <span className="text-2xl font-bold tracking-wide text-white">Viking Roots</span>
         </div>
 
         <h2 className="mb-6 text-3xl font-bold text-white">Join our community</h2>

@@ -50,7 +50,7 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
     >
       <div className="mb-8 flex items-center gap-3">
         <KinLogo size={48} />
-        <span className="text-2xl font-bold tracking-wide text-white">KinSnap</span>
+        <span className="text-2xl font-bold tracking-wide text-white">Viking Roots</span>
       </div>
 
       <h2 className="mb-8 text-4xl font-bold text-white">Welcome</h2>

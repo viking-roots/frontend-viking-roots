@@ -13,7 +13,7 @@ export function DashboardNavbar() {
         {/* Logo */}
         <Link to="/dashboard" className="flex shrink-0 items-center gap-3">
           <KinLogo size={36} />
-          <span className="text-lg font-bold text-white">KinSnap</span>
+          <span className="text-lg font-bold text-white">Viking Roots</span>
         </Link>
 
         {/* Search bar */}

@@ -63,7 +63,7 @@ export function FaceTaggingSettings() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-white">Enable Face Tagging</p>
-            <p className="text-xs text-white/50">Allow KinSnap to suggest tags for you in friends' photos.</p>
+            <p className="text-xs text-white/50">Allow Viking Roots to suggest tags for you in friends' photos.</p>
           </div>
           <button
             onClick={handleToggle}
