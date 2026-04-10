@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import type { FamilyMember } from './GedcomToJSON';
+import type { FamilyMember } from './GedcomToJson';
 
 export type TimelineEvent = {
   year: number;

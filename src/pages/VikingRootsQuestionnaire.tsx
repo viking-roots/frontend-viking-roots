@@ -45,34 +45,54 @@ export default function VikingRootsQuestionnaire() {
   };
 
   const sendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!inputMessage.trim()) return;
+  e.preventDefault();
+  if (!inputMessage.trim()) return;
 
-    const userMessage: Message = { role: 'user', content: inputMessage, timestamp: new Date() };
-    const nextMessages = [...messages, userMessage];
-    setMessages(nextMessages);
-    setInputMessage('');
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(API_ENDPOINTS.MESSAGE, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ message: userMessage.content, chat_history: nextMessages }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        alert(data.error || 'Failed to send message.');
-        return;
-      }
-      setMessages([...nextMessages, { role: 'model', content: data.message, timestamp: new Date() }]);
-    } catch {
-      alert('Network error.');
-    } finally {
-      setIsLoading(false);
-    }
+  const userMessage: Message = { 
+    role: 'user', 
+    content: inputMessage, 
+    timestamp: new Date() 
   };
+  
+  // History BEFORE the new message — backend adds it internally
+  const previousMessages = [...messages];
+  
+  setMessages(prev => [...prev, userMessage]);
+  setInputMessage('');
+  setIsLoading(true);
+
+  try {
+    const response = await fetch(API_ENDPOINTS.MESSAGE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ 
+        message: userMessage.content, 
+        chat_history: previousMessages  // ← history WITHOUT the current message
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Roll back the optimistic user message if request failed
+      setMessages(previousMessages);
+      alert(data.error || 'Failed to send message.');
+      return;
+    }
+
+    setMessages(prev => [
+      ...prev,
+      { role: 'model', content: data.message, timestamp: new Date() }
+    ]);
+
+  } catch {
+    setMessages(previousMessages); // Roll back on network error too
+    alert('Network error.');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="auth-page">

@@ -24,4 +24,22 @@ export const API_ENDPOINTS = {
   CREATE_GROUP: `${API_BASE_URL}/api/community/groups/create/`,
   LIKE_POST: (id: number) => `${API_BASE_URL}/api/community/posts/${id}/like/`,
   POST_COMMENTS: (id: number) => `${API_BASE_URL}/api/community/posts/${id}/comments/`,
+
+  // Connections
+  CONNECTIONS: `${API_BASE_URL}/api/community/connections/`,
+  SEND_CONNECTION_REQUEST: (userId: number) => `${API_BASE_URL}/api/community/connections/request/${userId}/`,
+  ACCEPT_CONNECTION_REQUEST: (connId: number) => `${API_BASE_URL}/api/community/connections/accept/${connId}/`,
+
+  // AI Memory Lane (Stories)
+  STORY_PROMPTS: `${API_BASE_URL}/api/ai_interview/story/prompts/`,
+  STORY_START: `${API_BASE_URL}/api/ai_interview/story/start/`,
+  STORY_MESSAGE: `${API_BASE_URL}/api/ai_interview/story/message/`,
+
+  // Recognition
+  RECOGNITION_SETTINGS: `${API_BASE_URL}/api/recognition/settings/face-tagging/`,
+  RECOGNITION_ENROLL: `${API_BASE_URL}/api/recognition/faces/enroll/`,
+  RECOGNITION_STATUS: `${API_BASE_URL}/api/recognition/faces/status/`,
+  RECOGNITION_DELETE: `${API_BASE_URL}/api/recognition/faces/delete/`,
+  RECOGNITION_PENDING_TAGS: `${API_BASE_URL}/api/recognition/tags/pending/`,
+  RECOGNITION_REVIEW_TAG: (id: number) => `${API_BASE_URL}/api/recognition/tags/${id}/review/`,
 } as const;

@@ -17,6 +17,9 @@ import ProfileSetup from "./pages/Profile";
 import HeritageDashboard from "./pages/HeritageDashboard";
 import ManualAncestoryEntry from "./pages/ManualAncestoryEntry";
 import UploadPage from "./pages/UploadPage";
+import FamilyTree from "./pages/FamilyTree";
+import SettingsPage from "./pages/SettingsPage";
+import ConnectionsPage from "./pages/ConnectionsPage";
 
 function App() {
   return (
@@ -27,6 +30,7 @@ function App() {
       <Route path="/feed" element={<SocialFeed />} />
       <Route path="/groups" element={<GroupsPage />} />
       <Route path="/groups/:groupId" element={<GroupsPage />} />
+      <Route path="/connections" element={<ConnectionsPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/otp-verify" element={<AuthenticationPage />} />
@@ -40,6 +44,8 @@ function App() {
       <Route path="/heritage-dashboard" element={<HeritageDashboard />} />
       <Route path="/ancestor/add" element={<ManualAncestoryEntry />} />
       <Route path="/dashboard/upload" element={<UploadPage />} />
+      <Route path="/familytree" element={<FamilyTree />} />
+      <Route path="/settings" element={<SettingsPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
