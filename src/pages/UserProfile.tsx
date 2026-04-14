@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
-import { SiteHeader } from '../components/site-header';
 import '../styles/UserProfile.css';
 
 interface Profile {
@@ -45,7 +44,6 @@ export default function UserProfile() {
 
   return (
     <div className="profile-page">
-      <SiteHeader />
       <main className="profile-wrap">
         {loading ? (
           <p>Loading profile...</p>
