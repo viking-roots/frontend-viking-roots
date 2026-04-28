@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { NudgeBubble } from "../components/nudge-bubble";
 import { PostCard } from "../components/post-card";
 import { API_ENDPOINTS } from "../config/api";
@@ -14,6 +15,7 @@ interface TaggedUser {
 }
 
 const GroupsSidebarWidget = () => {
+  const { t } = useTranslation();
   const [groups, setGroups] = useState<any[]>([]);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ const GroupsSidebarWidget = () => {
 
   return (
     <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
-      <h3 className="mb-3 text-sm font-bold text-white">Suggested Circles</h3>
+      <h3 className="mb-3 text-sm font-bold text-white">{t("dashboard.suggestedCircles")}</h3>
       <div className="flex flex-col gap-3">
         {groups.map((group) => (
           <div key={group.id} className="flex items-center gap-3">
@@ -36,7 +38,7 @@ const GroupsSidebarWidget = () => {
             </div>
             <div className="flex-1 overflow-hidden">
               <p className="truncate text-xs font-semibold text-white">{group.name}</p>
-              <p className="text-[10px] text-white/50">{group.member_count} members</p>
+              <p className="text-[10px] text-white/50">{t("common.memberCount", { count: group.member_count })}</p>
             </div>
           </div>
         ))}
@@ -46,6 +48,7 @@ const GroupsSidebarWidget = () => {
 };
 
 export default function DashboardPage() {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [prompts, setPrompts] = useState<string[]>([]);
@@ -158,7 +161,7 @@ export default function DashboardPage() {
         fetchFeed(); // Re-fetch to show the new post
       } else {
         const err = await res.json();
-        alert(err.error || 'Failed to create post');
+        alert(err.error || t('dashboard.createPostFailed'));
       }
     } catch (err) {
       console.error('Error creating post:', err);
@@ -177,8 +180,8 @@ export default function DashboardPage() {
             <PendingTagsNotification />
             
             <div className="mb-8">
-              <h1 className="text-xl font-bold text-white sm:text-2xl">Welcome back!</h1>
-              <p className="text-white/50">Here's what's happening in your family circle.</p>
+              <h1 className="text-xl font-bold text-white sm:text-2xl">{t("dashboard.welcomeBack")}</h1>
+              <p className="text-white/50">{t("dashboard.happening")}</p>
             </div>
 
             {/* Create Post Box */}
@@ -187,7 +190,7 @@ export default function DashboardPage() {
                 <textarea
                   value={postContent}
                   onChange={(e) => setPostContent(e.target.value)}
-                  placeholder="Share a memory, photo, or update..."
+                  placeholder={t("dashboard.sharePlaceholder")}
                   className="w-full resize-none rounded-lg bg-[#0a0a0a] p-3 text-sm text-white outline-none focus:ring-1 focus:ring-[#c88a65] min-h-[80px] border border-[#262626]"
                 />
                 
@@ -208,7 +211,7 @@ export default function DashboardPage() {
                   <input
                     ref={tagInputRef}
                     className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/30 min-w-[120px]"
-                    placeholder={selectedTags.length === 0 ? "Tag family members..." : ""}
+                    placeholder={selectedTags.length === 0 ? t("dashboard.tagPlaceholder") : ""}
                     value={tagSearch}
                     onChange={(e) => setTagSearch(e.target.value)}
                     onFocus={() => tagSearch.length > 0 && setShowTagDropdown(true)}
@@ -239,7 +242,7 @@ export default function DashboardPage() {
                   <div className="relative w-max">
                     <img 
                       src={URL.createObjectURL(postImage)} 
-                      alt="Upload preview" 
+                      alt={t("dashboard.uploadPreviewAlt")} 
                       className="h-24 rounded-lg object-cover border border-[#262626]"
                     />
                     <button 
@@ -262,7 +265,7 @@ export default function DashboardPage() {
                       <circle cx="8.5" cy="8.5" r="1.5"></circle>
                       <polyline points="21 15 16 10 5 21"></polyline>
                     </svg>
-                    Add Photo
+                    {t("dashboard.addPhoto")}
                     <input
                       type="file"
                       accept="image/*"
@@ -280,7 +283,7 @@ export default function DashboardPage() {
                     disabled={isPosting || (!postContent.trim() && !postImage)}
                     className="min-h-10 rounded-lg bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-5 py-2 text-sm font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white disabled:opacity-50 sm:min-h-0 sm:py-1.5"
                   >
-                    {isPosting ? 'Posting...' : 'Post'}
+                    {isPosting ? t('common.posting') : t('common.post')}
                   </button>
                 </div>
               </form>
@@ -292,7 +295,7 @@ export default function DashboardPage() {
               </div>
             ) : posts.length === 0 ? (
               <div className="rounded-lg border border-[#262626] bg-[#171717] p-6 text-center sm:p-12">
-                <p className="mb-4 text-white/50">Your feed is empty. Be the first to share something!</p>
+                <p className="mb-4 text-white/50">{t("dashboard.emptyFeed")}</p>
               </div>
             ) : (
               <div className="flex flex-col gap-6">
@@ -302,9 +305,9 @@ export default function DashboardPage() {
                     {i === 0 && (
                       <div className="mt-6">
                         <NudgeBubble 
-                          question="What traditions did your family keep?"
-                          primaryAction="Answer"
-                          secondaryAction="Later"
+                          question={t("dashboard.nudgeQuestion")}
+                          primaryAction={t("dashboard.answer")}
+                          secondaryAction={t("dashboard.later")}
                         />
                       </div>
                     )}
@@ -319,7 +322,7 @@ export default function DashboardPage() {
         <aside className="sticky top-[57px] hidden h-[calc(100vh-57px)] w-72 shrink-0 flex-col gap-6 overflow-y-auto border-l border-[#262626] p-6 xl:flex">
           {/* Story prompts */}
           <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
-            <h3 className="mb-3 text-sm font-bold text-white">Story Prompts</h3>
+            <h3 className="mb-3 text-sm font-bold text-white">{t("dashboard.storyPrompts")}</h3>
             <div className="flex flex-col gap-3">
               {prompts.length > 0 ? (
                 prompts.map((prompt, idx) => (
@@ -333,14 +336,14 @@ export default function DashboardPage() {
                 ))
               ) : (
                 <>
-                  <button onClick={() => handlePromptClick("What is your earliest childhood memory?")} className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
-                    What is your earliest childhood memory?
+                  <button onClick={() => handlePromptClick(t("dashboard.prompts.earliestMemory"))} className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
+                    {t("dashboard.prompts.earliestMemory")}
                   </button>
-                  <button onClick={() => handlePromptClick("What traditions did your family keep?")} className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
-                    What traditions did your family keep?
+                  <button onClick={() => handlePromptClick(t("dashboard.prompts.familyTraditions"))} className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
+                    {t("dashboard.prompts.familyTraditions")}
                   </button>
-                  <button onClick={() => handlePromptClick("Who was the storyteller in your family?")} className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
-                    Who was the storyteller in your family?
+                  <button onClick={() => handlePromptClick(t("dashboard.prompts.storyteller"))} className="rounded-lg border border-[#262626] p-3 text-left text-xs text-white/70 transition-colors hover:border-[#c88a65]/40 hover:text-white">
+                    {t("dashboard.prompts.storyteller")}
                   </button>
                 </>
               )}
@@ -352,7 +355,7 @@ export default function DashboardPage() {
           
           {/* Trending */}
           <div className="rounded-xl border border-[#262626] bg-[#171717] p-4">
-            <h3 className="mb-3 text-sm font-bold text-white">Trending</h3>
+            <h3 className="mb-3 text-sm font-bold text-white">{t("dashboard.trending")}</h3>
             <div className="flex flex-wrap gap-2">
               {["#VintagePhotos", "#FamilyStories", "#GimliMB", "#IcelandicRoots", "#1950s", "#PrairieLife"].map(
                 (tag) => (

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as f3 from 'family-chart';
 import 'family-chart/styles/family-chart.css';
 import type { FamilyMember, MarriageEvent } from '../components/GedcomToJson';
@@ -184,6 +185,7 @@ const INJECTED_STYLES = `
 `;
 
 const FamilyTree = () => {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const f3ChartRef = useRef<any>(null);
   const styleRef = useRef<HTMLStyleElement | null>(null);
@@ -258,7 +260,7 @@ const FamilyTree = () => {
         credentials: 'include'
       });
       
-      if (!response.ok) throw new Error('Failed to fetch tree data');
+      if (!response.ok) throw new Error(t('familyTree.fetchFailed'));
       
       const data = await response.json();
       
@@ -352,7 +354,7 @@ const FamilyTree = () => {
             backgroundClip: 'text',
             letterSpacing: '0.12em',
           }}>
-            ✦ Viking Roots ✦
+            ✦ {t('familyTree.title')} ✦
           </h1>
           <div style={{
             height: 1, background: `linear-gradient(90deg, transparent, ${gold}, transparent)`,
@@ -376,7 +378,7 @@ const FamilyTree = () => {
               cursor: 'pointer'
             }}
           >
-            {isLoading ? 'Syncing...' : '↻ Refresh Saga'}
+            {isLoading ? t('familyTree.syncing') : `↻ ${t('familyTree.refreshSaga')}`}
           </button>
 
           {/* Timeline toggle button */}
@@ -415,13 +417,13 @@ const FamilyTree = () => {
               }}
             >
               <span style={{ fontSize: '0.75rem' }}>⧗</span>
-              {showTimeline ? 'Hide Timeline' : 'Show Timeline'}
+              {showTimeline ? t('familyTree.hideTimeline') : t('familyTree.showTimeline')}
             </button>
           )}
 
           {isLoading && (
             <span style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', alignSelf: 'flex-end' }}>
-              Parsing records…
+              {t('familyTree.parsingRecords')}
             </span>
           )}
         </div>
@@ -433,8 +435,8 @@ const FamilyTree = () => {
             display: 'flex', gap: 24, flexWrap: 'wrap', justifyContent: 'center',
           }}>
             {[
-              { label: 'Individuals', value: stats.individualCount },
-              { label: 'Families', value: stats.familyCount },
+              { label: t('familyTree.individuals'), value: stats.individualCount },
+              { label: t('familyTree.families'), value: stats.familyCount },
             ].map(({ label, value }) => (
               <div key={label} style={{ textAlign: 'center' }}>
                 <div style={{
@@ -474,7 +476,7 @@ const FamilyTree = () => {
         }}>
           <div style={{ fontSize: '3rem', marginBottom: 16, opacity: 0.3 }}>⚜</div>
           <p style={{ color: gold, fontSize: '1.2rem', marginBottom: 8, fontStyle: 'italic' }}>
-            Upload a GEDCOM file or load the example to begin
+            {t('familyTree.empty')}
           </p>
         </div>
       )}

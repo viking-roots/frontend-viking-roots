@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Footer } from '../components/Footer';
 import { API_BASE_URL } from '../config/api';
 
 export default function ManualAncestoryEntry() {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [relation, setRelation] = useState('');
   const [birthYear, setBirthYear] = useState('');
@@ -23,9 +25,9 @@ export default function ManualAncestoryEntry() {
         }),
       });
       const data = await response.json();
-      setMessage(response.ok ? 'Ancestor added.' : data.error || 'Failed to save ancestor.');
+      setMessage(response.ok ? t('heritage.ancestorAdded') : data.error || t('heritage.ancestorSaveFailed'));
     } catch {
-      setMessage('Network error.');
+      setMessage(t('ai.network'));
     }
   };
 
@@ -33,12 +35,12 @@ export default function ManualAncestoryEntry() {
     <div style={{ minHeight: '100vh', background: 'var(--surface-bg)', color: 'var(--surface-fg)' }}>
       
       <main style={{ maxWidth: 760, margin: '0 auto', padding: '2rem 1rem' }}>
-        <h1>Add Ancestor Manually</h1>
+        <h1>{t('heritage.addAncestor')}</h1>
         <form onSubmit={submit} style={{ display: 'grid', gap: 10, border: '1px solid var(--surface-border)', borderRadius: 12, background: 'var(--surface-elev)', padding: '1rem' }}>
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" required />
-          <input value={relation} onChange={(e) => setRelation(e.target.value)} placeholder="Relation" required />
-          <input value={birthYear} onChange={(e) => setBirthYear(e.target.value)} placeholder="Birth year" />
-          <button type="submit">Save Ancestor</button>
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('heritage.fullName')} required />
+          <input value={relation} onChange={(e) => setRelation(e.target.value)} placeholder={t('heritage.relation')} required />
+          <input value={birthYear} onChange={(e) => setBirthYear(e.target.value)} placeholder={t('heritage.birthYear')} />
+          <button type="submit">{t('heritage.saveAncestor')}</button>
         </form>
         {message ? <p style={{ color: 'var(--surface-muted)' }}>{message}</p> : null}
       </main>

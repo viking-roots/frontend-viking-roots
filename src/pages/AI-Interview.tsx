@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import '../styles/AuthPages.css';
@@ -11,6 +12,7 @@ interface Message {
 
 export default function AIInterview() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -31,13 +33,13 @@ export default function AIInterview() {
       });
       const data = await response.json();
       if (!response.ok) {
-        alert(data.error || 'Failed to start interview.');
+        alert(data.error || t('ai.startFailed'));
         return;
       }
       setMessages([{ role: 'model', content: data.message, timestamp: new Date() }]);
       setHasStarted(true);
     } catch {
-      alert('Network error.');
+      alert(t('ai.network'));
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +78,7 @@ export default function AIInterview() {
     if (!response.ok) {
       // Roll back the optimistic user message if request failed
       setMessages(previousMessages);
-      alert(data.error || 'Failed to send message.');
+      alert(data.error || t('ai.sendFailed'));
       return;
     }
 
@@ -87,7 +89,7 @@ export default function AIInterview() {
 
   } catch {
     setMessages(previousMessages); // Roll back on network error too
-    alert('Network error.');
+    alert(t('ai.network'));
   } finally {
     setIsLoading(false);
   }
@@ -98,10 +100,10 @@ export default function AIInterview() {
       <main className="chat-main">
         {!hasStarted ? (
           <section className="auth-card">
-            <h1>Viking Roots Questionnaire</h1>
-            <p>Discover and preserve your heritage through a guided interview.</p>
+            <h1>{t('ai.title')}</h1>
+            <p>{t('ai.description')}</p>
             <button onClick={startInterview} disabled={isLoading}>
-              {isLoading ? 'Starting...' : 'Begin'}
+              {isLoading ? t('ai.starting') : t('ai.begin')}
             </button>
           </section>
         ) : (
@@ -120,16 +122,16 @@ export default function AIInterview() {
               <input
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Type your message"
+                placeholder={t('ai.typeMessage')}
                 disabled={isLoading}
               />
               <button type="submit" disabled={isLoading || !inputMessage.trim()}>
-                Send
+                {t('ai.send')}
               </button>
             </form>
 
             <div className="auth-links">
-              <button className="link-like" onClick={() => navigate('/profile')}>Continue to profile</button>
+              <button className="link-like" onClick={() => navigate('/profile')}>{t('ai.continueToProfile')}</button>
             </div>
           </section>
         )}

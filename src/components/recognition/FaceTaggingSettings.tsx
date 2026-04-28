@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { API_ENDPOINTS } from '../../config/api';
 
 export function FaceTaggingSettings() {
+  const { t } = useTranslation();
   const [settings, setSettings] = useState({
     face_tagging_enabled: false,
     tagging_scope: 'manual_approval'
@@ -57,13 +59,13 @@ export function FaceTaggingSettings() {
 
   return (
     <div className="rounded-xl border border-[#262626] bg-[#171717] p-6">
-      <h3 className="text-lg font-bold text-white mb-4">Privacy & Tagging</h3>
+      <h3 className="text-lg font-bold text-white mb-4">{t('recognition.privacyTagging')}</h3>
       
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-white">Enable Face Tagging</p>
-            <p className="text-xs text-white/50">Allow Viking Roots to suggest tags for you in friends' photos.</p>
+            <p className="text-sm font-semibold text-white">{t('recognition.enableFaceTagging')}</p>
+            <p className="text-xs text-white/50">{t('recognition.enableFaceTaggingCopy')}</p>
           </div>
           <button
             onClick={handleToggle}
@@ -82,8 +84,8 @@ export function FaceTaggingSettings() {
 
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-white">Tagging Scope</p>
-            <p className="text-xs text-white/50">Who can trigger tag suggestions for you?</p>
+            <p className="text-sm font-semibold text-white">{t('recognition.taggingScope')}</p>
+            <p className="text-xs text-white/50">{t('recognition.taggingScopeCopy')}</p>
           </div>
           <select
             value={settings.tagging_scope}
@@ -91,9 +93,9 @@ export function FaceTaggingSettings() {
             disabled={saving || !settings.face_tagging_enabled}
             className="rounded-lg border border-[#262626] bg-[#0a0a0a] px-3 py-1 text-xs text-white outline-none focus:border-[#c88a65]"
           >
-            <option value="friends_only">Friends Only</option>
-            <option value="manual_approval">Manual Approval</option>
-            <option value="nobody">Nobody</option>
+            <option value="friends_only">{t('recognition.friendsOnly')}</option>
+            <option value="manual_approval">{t('recognition.manualApproval')}</option>
+            <option value="nobody">{t('recognition.nobody')}</option>
           </select>
         </div>
       </div>

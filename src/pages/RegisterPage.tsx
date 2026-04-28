@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import '../styles/AuthPages.css';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +16,7 @@ export default function RegisterPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      alert('Passwords do not match.');
+      alert(t('auth.errors.passwordMismatch'));
       return;
     }
 
@@ -34,13 +36,13 @@ export default function RegisterPage() {
 
       const data = await response.json();
       if (!response.ok) {
-        alert(data.error || 'Registration failed.');
+        alert(data.error || t('auth.errors.registrationFailed'));
         return;
       }
 
       navigate('/otp-verify', { state: { email } });
     } catch {
-      alert('Network error. Please check your connection and try again.');
+      alert(t('auth.errors.network'));
     } finally {
       setIsLoading(false);
     }
@@ -51,12 +53,12 @@ export default function RegisterPage() {
       
       <main className="auth-main">
         <div className="auth-card">
-          <h1>Create Account</h1>
-          <p>Start building your heritage profile.</p>
+          <h1>{t('auth.createAccount')}</h1>
+          <p>{t('auth.startBuildingProfile')}</p>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <label>
-              Full Name
+              {t('auth.fullName')}
               <input
                 type="text"
                 value={fullName}
@@ -67,7 +69,7 @@ export default function RegisterPage() {
             </label>
 
             <label>
-              Email
+              {t('auth.email')}
               <input
                 type="email"
                 value={email}
@@ -77,7 +79,7 @@ export default function RegisterPage() {
             </label>
 
             <label>
-              Password
+              {t('auth.password')}
               <input
                 type="password"
                 value={password}
@@ -87,7 +89,7 @@ export default function RegisterPage() {
             </label>
 
             <label>
-              Confirm Password
+              {t('auth.confirmPassword')}
               <input
                 type="password"
                 value={confirmPassword}
@@ -97,12 +99,12 @@ export default function RegisterPage() {
             </label>
 
             <button type="submit" disabled={isLoading}>
-              {isLoading ? 'Signing Up...' : 'Sign Up'}
+              {isLoading ? t('auth.signingUp') : t('auth.signUp')}
             </button>
           </form>
 
           <div className="auth-links">
-            <Link to="/login">Already have an account? Login</Link>
+            <Link to="/login">{t('auth.alreadyHaveAccountLogin')}</Link>
           </div>
         </div>
       </main>

@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { FamilyMember } from './GedcomToJson';
 
 export type TimelineEvent = {
@@ -17,14 +18,15 @@ function extractYear(dateStr: string): number | null {
 
 function buildEvents(
   familyData: FamilyMember[],
-  marriages: Array<{ year: number; husbandName: string; wifeName: string }>
+  marriages: Array<{ year: number; husbandName: string; wifeName: string }>,
+  unknownLabel: string
 ): TimelineEvent[] {
   const events: TimelineEvent[] = [];
 
   familyData.forEach((member) => {
     const firstName = member.data['first name'];
     const lastName = member.data['last name'];
-    const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Unknown';
+    const fullName = [firstName, lastName].filter(Boolean).join(' ') || unknownLabel;
 
     const birthYear = extractYear(member.data.birthday || '');
     if (birthYear) {
@@ -67,6 +69,7 @@ const TYPE_CONFIG = {
     color: '#c88a65',      // accent
     glowColor: 'rgba(228,189,70,0.5)',
     label: 'BIRTH',
+    labelKey: 'timeline.birth',
     bgColor: 'rgba(228,189,70,0.08)',
   },
   death: {
@@ -74,6 +77,7 @@ const TYPE_CONFIG = {
     color: '#a57c7c',      // soft red-brown
     glowColor: 'rgba(165,124,124,0.5)',
     label: 'DEATH',
+    labelKey: 'timeline.death',
     bgColor: 'rgba(165,124,124,0.06)',
   },
   marriage: {
@@ -81,6 +85,7 @@ const TYPE_CONFIG = {
     color: '#c88a65',      // accent
     glowColor: 'rgba(228,189,70,0.5)',
     label: 'MARRIAGE',
+    labelKey: 'timeline.marriage',
     bgColor: 'rgba(228,189,70,0.06)',
   },
 };
@@ -98,7 +103,8 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
   isVisible,
   onClose,
 }) => {
-  const events = useMemo(() => buildEvents(familyData, marriages), [familyData, marriages]);
+  const { t } = useTranslation();
+  const events = useMemo(() => buildEvents(familyData, marriages, t('timeline.unknown')), [familyData, marriages, t]);
   const [activeFilter, setActiveFilter] = useState<'all' | 'birth' | 'death' | 'marriage'>('all');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -181,7 +187,7 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
                 opacity: 0.75,
                 marginBottom: 3,
               }}>
-                Chronicle of
+                {t('timeline.chronicleOf')}
               </div>
               <div style={{
                 fontFamily: "'Cinzel', serif",
@@ -190,7 +196,7 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
                 color: accentBright,
                 letterSpacing: '0.08em',
               }}>
-                Events
+                {t('timeline.events')}
               </div>
             </div>
             <button
@@ -274,7 +280,7 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
             textTransform: 'uppercase',
             textAlign: 'center',
           }}>
-            {activeFilter === 'all' ? 'All Events' : `${activeFilter} Events Only`}
+            {activeFilter === 'all' ? t('timeline.allEvents') : t('timeline.eventsOnly', { type: t(`timeline.${activeFilter}`) })}
           </div>
         </div>
 
@@ -298,7 +304,7 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
               textAlign: 'center',
               padding: '0 20px',
             }}>
-              No dated events to display
+              {t('timeline.noEvents')}
             </div>
           </div>
         )}
@@ -438,7 +444,7 @@ const TimelinePanel: React.FC<TimelinePanelProps> = ({
                               textTransform: 'uppercase',
                               paddingTop: 1,
                             }}>
-                              {cfg.label}
+                              {t(cfg.labelKey)}
                             </span>
                           </div>
 

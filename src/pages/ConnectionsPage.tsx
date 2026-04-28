@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { API_ENDPOINTS } from "../config/api";
 
@@ -11,6 +12,7 @@ interface UserInfo {
 }
 
 export default function ConnectionsPage() {
+  const { t } = useTranslation();
   const [friends, setFriends] = useState<UserInfo[]>([]);
   const [requests, setRequests] = useState<UserInfo[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,10 +68,10 @@ export default function ConnectionsPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        alert('Connection request sent!');
+        alert(t('connections.requestSent'));
         setSearchResults(prev => prev.filter(u => u.id !== userId));
       } else {
-        alert(data.error || 'Failed to send request');
+        alert(data.error || t('connections.requestFailed'));
       }
     } catch (err) {
       console.error('Error sending request:', err);
@@ -98,19 +100,19 @@ export default function ConnectionsPage() {
         
         <main className="flex-1 p-6">
           <div className="mx-auto max-w-3xl">
-            <h1 className="text-3xl font-bold text-white mb-8">Family Connections</h1>
+            <h1 className="text-3xl font-bold text-white mb-8">{t('connections.title')}</h1>
 
             <div className="space-y-8">
               
               {/* Search Section */}
               <section className="rounded-xl border border-[#262626] bg-[#171717] p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Find Family & Friends</h2>
+                <h2 className="text-xl font-bold text-white mb-4">{t('connections.findTitle')}</h2>
                 <form onSubmit={handleSearch} className="flex gap-3 mb-4">
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search by username or name..."
+                    placeholder={t('connections.searchPlaceholder')}
                     className="flex-1 rounded-lg border border-[#262626] bg-[#0a0a0a] px-4 py-2 text-white outline-none focus:border-[#c88a65]"
                   />
                   <button 
@@ -118,13 +120,13 @@ export default function ConnectionsPage() {
                     disabled={searching || !searchQuery.trim()}
                     className="rounded-lg bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-6 py-2 font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white disabled:opacity-50"
                   >
-                    {searching ? 'Searching...' : 'Search'}
+                    {searching ? t('common.searching') : t('common.search')}
                   </button>
                 </form>
 
                 {searchResults.length > 0 && (
                   <div className="space-y-3 mt-6">
-                    <h3 className="text-sm font-bold text-white/70 uppercase tracking-wider">Results</h3>
+                    <h3 className="text-sm font-bold text-white/70 uppercase tracking-wider">{t('common.results')}</h3>
                     {searchResults.map(user => (
                       <div key={user.id} className="flex items-center justify-between rounded-lg border border-[#262626] p-3">
                         <div className="flex items-center gap-3">
@@ -144,7 +146,7 @@ export default function ConnectionsPage() {
                           onClick={() => handleSendRequest(user.id)}
                           className="rounded bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-3 py-1 text-xs font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
                         >
-                          Connect
+                          {t('common.connect')}
                         </button>
                       </div>
                     ))}
@@ -155,7 +157,7 @@ export default function ConnectionsPage() {
               {/* Pending Requests Section */}
               {requests.length > 0 && (
                 <section className="rounded-xl border border-[#262626] bg-[#171717] p-6">
-                  <h2 className="text-xl font-bold text-white mb-4">Pending Requests</h2>
+                  <h2 className="text-xl font-bold text-white mb-4">{t('connections.pendingRequests')}</h2>
                   <div className="space-y-3">
                     {requests.map(req => (
                       <div key={req.connection_id} className="flex items-center justify-between rounded-lg border border-[#262626] p-3">
@@ -173,7 +175,7 @@ export default function ConnectionsPage() {
                           onClick={() => handleAcceptRequest(req.connection_id!)}
                           className="rounded bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-4 py-1.5 text-xs font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white hover:scale-105"
                         >
-                          Accept
+                          {t('common.accept')}
                         </button>
                       </div>
                     ))}
@@ -183,11 +185,11 @@ export default function ConnectionsPage() {
 
               {/* Current Connections Section */}
               <section className="rounded-xl border border-[#262626] bg-[#171717] p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Your Connections</h2>
+                <h2 className="text-xl font-bold text-white mb-4">{t('connections.yourConnections')}</h2>
                 {loading ? (
                   <div className="animate-pulse h-12 bg-[#262626] rounded-lg" />
                 ) : friends.length === 0 ? (
-                  <p className="text-white/50 text-center py-4">You haven't added any family connections yet.</p>
+                  <p className="text-white/50 text-center py-4">{t('connections.empty')}</p>
                 ) : (
                   <div className="grid gap-3 sm:grid-cols-2">
                     {friends.map(friend => (

@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Shield } from "lucide-react";
 
 const navItems = [
   {
-    label: "Home",
+    labelKey: "nav.home",
     href: "/dashboard",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -13,7 +14,7 @@ const navItems = [
     ),
   },
   {
-    label: "Circles",
+    labelKey: "nav.circles",
     href: "/groups",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -25,7 +26,7 @@ const navItems = [
     ),
   },
   {
-    label: "Upload",
+    labelKey: "nav.upload",
     href: "/dashboard/upload",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -36,7 +37,7 @@ const navItems = [
     ),
   },
   {
-    label: "Heritage",
+    labelKey: "nav.heritage",
     href: "/heritage-dashboard",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -49,7 +50,7 @@ const navItems = [
   },
   // ADDED: Family Tree Link
   {
-    label: "Family Tree",
+    labelKey: "nav.familyTree",
     href: "/familytree",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -62,7 +63,7 @@ const navItems = [
     ),
   },
   {
-    label: "AI Interview",
+    labelKey: "nav.aiInterview",
     href: "/ai-interview",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -71,7 +72,7 @@ const navItems = [
     ),
   },
   {
-    label: "Network",
+    labelKey: "nav.network",
     href: "/connections",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -83,7 +84,7 @@ const navItems = [
     ),
   },
   {
-    label: "Events",
+    labelKey: "nav.events",
     href: "/dashboard/events",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -95,7 +96,7 @@ const navItems = [
     ),
   },
   {
-    label: "Saved",
+    labelKey: "nav.saved",
     href: "/dashboard/saved",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -104,7 +105,7 @@ const navItems = [
     ),
   },
   {
-    label: "Settings",
+    labelKey: "nav.settings",
     href: "/settings",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -114,7 +115,7 @@ const navItems = [
     ),
   },
   {
-    label: "Admin",
+    labelKey: "nav.admin",
     href: "/admin/users",
     icon: <Shield size={20} />,
   },
@@ -122,6 +123,7 @@ const navItems = [
 
 export function DashboardSidebar() {
   const location = useLocation();
+  const { t } = useTranslation();
   const canAccessAdmin =
     localStorage.getItem('isStaff') === 'true' ||
     localStorage.getItem('isSuperuser') === 'true';
@@ -138,7 +140,7 @@ export function DashboardSidebar() {
           
           return (
             <Link
-              key={item.label}
+              key={item.labelKey}
               to={item.href}
               className={`flex min-w-20 flex-col items-center justify-center gap-1 rounded-lg px-2 py-2 text-[11px] font-semibold transition-colors lg:min-w-0 lg:flex-row lg:justify-start lg:gap-3 lg:px-3 lg:py-2.5 lg:text-sm ${
                 isActive
@@ -149,7 +151,7 @@ export function DashboardSidebar() {
               <span className={isActive ? "text-[#c88a65]" : "text-white/50"}>
                 {item.icon}
               </span>
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           );
         })}
@@ -165,7 +167,7 @@ export function DashboardSidebar() {
             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
             <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
-          Help
+          {t("nav.help")}
         </Link>
       </div>
     </aside>

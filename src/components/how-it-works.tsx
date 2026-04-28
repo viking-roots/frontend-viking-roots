@@ -1,33 +1,34 @@
+import { useTranslation } from "react-i18next";
+
 const steps = [
   {
-    title: "JOIN A PROJECT",
-    description:
-      "Take part in a community project focused on a family, town, or shared history.",
+    titleKey: "home.howItWorks.joinTitle",
+    descriptionKey: "home.howItWorks.joinDescription",
   },
   {
-    title: "Upload & Explore Photos",
-    description:
-      "Upload historical photographs or explore images shared by others in the community.",
+    titleKey: "home.howItWorks.uploadTitle",
+    descriptionKey: "home.howItWorks.uploadDescription",
   },
   {
-    title: "Help Identify & Preserve Stories",
-    description:
-      "Tag people, add details, and contribute short stories that help bring each photograph to life.",
+    titleKey: "home.howItWorks.preserveTitle",
+    descriptionKey: "home.howItWorks.preserveDescription",
   },
-];
+] as const;
 
 export function HowItWorks() {
+  const { t } = useTranslation();
+
   return (
     <section className="w-full border-t border-[#262626] bg-[#0a0a0a] px-6 py-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <h2 className="mb-10 text-4xl font-bold text-white lg:text-5xl">
-          How it works ?
+          {t("home.howItWorks.title")}
         </h2>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {steps.map((step) => (
             <div
-              key={step.title}
+              key={step.titleKey}
               className="relative rounded-md p-6"
             >
               {/* Gradient Border using mask to keep background transparent */}
@@ -51,10 +52,10 @@ export function HowItWorks() {
                   color: "transparent",
                 }}
               >
-                {step.title}
+                {t(step.titleKey)}
               </h3>
               <p className="relative text-sm leading-relaxed text-white/80">
-                {step.description}
+                {t(step.descriptionKey)}
               </p>
             </div>
           ))}

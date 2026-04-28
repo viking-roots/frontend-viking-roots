@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import '../styles/AuthPages.css';
@@ -13,6 +14,7 @@ const getOtpDigits = (value: string) =>
 export default function AuthenticationPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const email = location.state?.email || '';
 
   const [otp, setOtp] = useState(createEmptyOtp);
@@ -102,14 +104,14 @@ export default function AuthenticationPage() {
       });
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || 'Invalid verification code.');
+        setMessage(data.error || t('auth.errors.invalidVerificationCode'));
         setOtp(createEmptyOtp());
         inputRefs.current[0]?.focus();
         return;
       }
       navigate('/login');
     } catch {
-      setMessage('Network error. Please check your connection.');
+      setMessage(t('auth.networkErrorShort'));
     } finally {
       setIsLoading(false);
     }
@@ -126,15 +128,15 @@ export default function AuthenticationPage() {
       });
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || 'Failed to resend verification code.');
+        setMessage(data.error || t('auth.errors.resendFailed'));
         return;
       }
       setCountdown(60);
       setOtp(createEmptyOtp());
-      setMessage('A fresh verification code was sent.');
+      setMessage(t('auth.messages.freshCodeSent'));
       inputRefs.current[0]?.focus();
     } catch {
-      setMessage('Network error. Please check your connection.');
+      setMessage(t('auth.networkErrorShort'));
     } finally {
       setResendLoading(false);
     }
@@ -149,13 +151,13 @@ export default function AuthenticationPage() {
             <span>✓</span>
           </div>
 
-          <h1>Verify Your Email</h1>
+          <h1>{t('auth.verifyEmail')}</h1>
           <p className="otp-copy">
-            Enter the {OTP_LENGTH}-digit code sent to <strong>{email}</strong>
+            {t('auth.verifyCopy', { count: OTP_LENGTH })} <strong>{email}</strong>
           </p>
 
           <form onSubmit={handleSubmit} className="auth-form">
-            <div className="otp-row" aria-label="Verification code">
+            <div className="otp-row" aria-label={t('auth.verificationCode')}>
               {otp.map((digit, index) => (
                 <input
                   key={index}
@@ -170,32 +172,32 @@ export default function AuthenticationPage() {
                   onChange={(e) => handleChange(index, e.target.value)}
                   onPaste={handlePaste}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  aria-label={`Digit ${index + 1}`}
+                  aria-label={t('auth.digitLabel', { count: index + 1 })}
                   autoFocus={index === 0}
                   required
                 />
               ))}
             </div>
 
-            <p className="otp-hint">Paste the full code into any box.</p>
+            <p className="otp-hint">{t('auth.pasteCodeHint')}</p>
 
             <button type="submit" disabled={isLoading || otp.join('').length !== OTP_LENGTH}>
-              {isLoading ? 'Verifying...' : 'Verify Email'}
+              {isLoading ? t('auth.verifying') : t('auth.verifyEmailButton')}
             </button>
           </form>
 
           {message && <p className="otp-message">{message}</p>}
 
           {countdown > 0 ? (
-            <p className="otp-note">Resend OTP in {countdown}s</p>
+            <p className="otp-note">{t('auth.resendOtpIn', { count: countdown })}</p>
           ) : (
             <button className="link-like" type="button" disabled={resendLoading} onClick={handleResend}>
-              {resendLoading ? 'Sending...' : "Didn't receive code? Resend OTP"}
+              {resendLoading ? t('auth.sending') : t('auth.resendOtp')}
             </button>
           )}
 
           <div className="auth-links">
-            <Link to="/register">Wrong email? Register again</Link>
+            <Link to="/register">{t('auth.wrongEmail')}</Link>
           </div>
         </div>
       </main>

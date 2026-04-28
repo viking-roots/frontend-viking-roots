@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from '../config/api';
 
 export default function GedcomUploader() {
+  const { t } = useTranslation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [message, setMessage] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -22,13 +24,13 @@ export default function GedcomUploader() {
         credentials: 'include',
       });
       const data = await response.json();
-      setMessage(response.ok ? data.message || 'Uploaded.' : data.error || 'Upload failed.');
+      setMessage(response.ok ? data.message || t('upload.gedcomUploaded') : data.error || t('upload.imageFailed'));
       if (response.ok) {
         setSelectedFile(null);
         if (fileRef.current) fileRef.current.value = '';
       }
     } catch {
-      setMessage('Network error.');
+      setMessage(t('ai.network'));
     } finally {
       setUploading(false);
     }
@@ -36,7 +38,7 @@ export default function GedcomUploader() {
 
   return (
     <section style={{ border: '1px solid var(--surface-border)', borderRadius: 12, background: 'var(--surface-elev)', padding: '1rem' }}>
-      <h2>Import GEDCOM</h2>
+      <h2>{t('upload.gedcomTitle')}</h2>
       <form onSubmit={upload} style={{ display: 'grid', gap: 10 }}>
         <input
           ref={fileRef}
@@ -44,7 +46,7 @@ export default function GedcomUploader() {
           accept=".ged"
           onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
         />
-        <button disabled={uploading || !selectedFile} type="submit">{uploading ? 'Processing...' : 'Import Data'}</button>
+        <button disabled={uploading || !selectedFile} type="submit">{uploading ? t('upload.processing') : t('upload.importData')}</button>
       </form>
       {message ? <p style={{ color: 'var(--surface-muted)' }}>{message}</p> : null}
     </section>

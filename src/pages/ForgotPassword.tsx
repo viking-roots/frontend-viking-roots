@@ -1,9 +1,11 @@
 import { type FormEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import '../styles/AuthPages.css';
 
 export default function ForgotPassword() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -23,13 +25,13 @@ export default function ForgotPassword() {
 
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || 'Unable to send a password reset code.');
+        setMessage(data.error || t('auth.errors.resetSendFailed'));
         return;
       }
 
-      setMessage(data.message || 'Password reset code sent.');
+      setMessage(data.message || t('auth.messages.passwordResetSent'));
     } catch {
-      setMessage('Network error. Please check your connection and try again.');
+      setMessage(t('auth.errors.network'));
     } finally {
       setIsLoading(false);
     }
@@ -39,12 +41,12 @@ export default function ForgotPassword() {
     <div className="auth-page">
       <main className="auth-main">
         <div className="auth-card">
-          <h1>Forgot Password</h1>
-          <p>Enter your account email.</p>
+          <h1>{t('auth.forgotPassword')}</h1>
+          <p>{t('auth.forgotCopy')}</p>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <label>
-              Email
+              {t('auth.email')}
               <input
                 type="email"
                 value={email}
@@ -55,7 +57,7 @@ export default function ForgotPassword() {
             </label>
 
             <button type="submit" disabled={isLoading}>
-              {isLoading ? 'Sending...' : 'Send Reset Code'}
+              {isLoading ? t('auth.sending') : t('auth.sendResetCode')}
             </button>
           </form>
 
@@ -63,10 +65,10 @@ export default function ForgotPassword() {
 
           <div className="auth-links">
             <Link to="/reset-password" state={{ email }}>
-              Enter reset code
+              {t('auth.enterResetCode')}
             </Link>
             <br />
-            <Link to="/login">Back to login</Link>
+            <Link to="/login">{t('auth.goToLogin')}</Link>
           </div>
         </div>
       </main>

@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import '../styles/AuthPages.css';
@@ -8,6 +9,7 @@ type ResetLocationState = {
 };
 
 export default function ResetPassword() {
+  const { t } = useTranslation();
   const location = useLocation();
   const state = location.state as ResetLocationState | null;
   const queryEmail = new URLSearchParams(location.search).get('email') || '';
@@ -25,7 +27,7 @@ export default function ResetPassword() {
     setMessage('');
 
     if (newPassword !== confirmPassword) {
-      setMessage('Passwords do not match.');
+      setMessage(t('auth.errors.passwordMismatch'));
       return;
     }
 
@@ -44,17 +46,17 @@ export default function ResetPassword() {
 
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || 'Unable to reset password.');
+        setMessage(data.error || t('auth.errors.resetFailed'));
         return;
       }
 
       setIsComplete(true);
-      setMessage(data.message || 'Password reset successfully.');
+      setMessage(data.message || t('auth.messages.passwordResetSuccess'));
       setToken('');
       setNewPassword('');
       setConfirmPassword('');
     } catch {
-      setMessage('Network error. Please check your connection and try again.');
+      setMessage(t('auth.errors.network'));
     } finally {
       setIsLoading(false);
     }
@@ -64,12 +66,12 @@ export default function ResetPassword() {
     <div className="auth-page">
       <main className="auth-main">
         <div className="auth-card">
-          <h1>Reset Password</h1>
-          <p>Use the code from your email.</p>
+          <h1>{t('auth.resetPassword')}</h1>
+          <p>{t('auth.resetCopy')}</p>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <label>
-              Email
+              {t('auth.email')}
               <input
                 type="email"
                 value={email}
@@ -80,7 +82,7 @@ export default function ResetPassword() {
             </label>
 
             <label>
-              Reset Code
+              {t('auth.resetCode')}
               <input
                 type="text"
                 value={token}
@@ -91,7 +93,7 @@ export default function ResetPassword() {
             </label>
 
             <label>
-              New Password
+              {t('auth.newPassword')}
               <input
                 type="password"
                 value={newPassword}
@@ -101,7 +103,7 @@ export default function ResetPassword() {
             </label>
 
             <label>
-              Confirm New Password
+              {t('auth.confirmNewPassword')}
               <input
                 type="password"
                 value={confirmPassword}
@@ -111,14 +113,14 @@ export default function ResetPassword() {
             </label>
 
             <button type="submit" disabled={isLoading || isComplete}>
-              {isLoading ? 'Resetting...' : 'Reset Password'}
+              {isLoading ? t('auth.resetting') : t('auth.resetPassword')}
             </button>
           </form>
 
           {message && <p className="otp-note">{message}</p>}
 
           <div className="auth-links">
-            {isComplete ? <Link to="/login">Go to login</Link> : <Link to="/forgot-password">Request a new code</Link>}
+            {isComplete ? <Link to="/login">{t('auth.goToLogin')}</Link> : <Link to="/forgot-password">{t('auth.requestNewCode')}</Link>}
           </div>
         </div>
       </main>

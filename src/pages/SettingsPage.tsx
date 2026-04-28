@@ -2,9 +2,11 @@ import { FaceEnrollment } from "@/components/recognition/FaceEnrollment";
 import { FaceTaggingSettings } from "@/components/recognition/FaceTaggingSettings";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { API_ENDPOINTS } from "../config/api";
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const [pendingTags, setPendingTags] = useState<any[]>([]);
   const [loadingTags, setLoadingTags] = useState(false);
 
@@ -47,19 +49,19 @@ export default function SettingsPage() {
         <main className="flex-1 p-6">
           <div className="mx-auto max-w-2xl">
             <div className="flex items-center justify-between mb-8">
-              <h1 className="text-3xl font-bold text-white">Settings</h1>
+              <h1 className="text-3xl font-bold text-white">{t('settings.title')}</h1>
               <ThemeToggle />
             </div>
 
             <div className="space-y-8">
               {/* Face Tagging Review Section */}
               <section>
-                <h2 className="text-xl font-bold text-white mb-4">Pending Photo Tags</h2>
+                <h2 className="text-xl font-bold text-white mb-4">{t('settings.pendingPhotoTags')}</h2>
                 {loadingTags ? (
                   <div className="animate-pulse h-20 bg-[#171717] rounded-xl" />
                 ) : pendingTags.length === 0 ? (
                   <div className="rounded-xl border border-[#262626] bg-[#171717] p-8 text-center">
-                    <p className="text-white/50">No pending tags to review.</p>
+                    <p className="text-white/50">{t('settings.noPendingTags')}</p>
                   </div>
                 ) : (
                   <div className="grid gap-4">
@@ -67,15 +69,15 @@ export default function SettingsPage() {
                       <div key={tag.id} className="flex items-center gap-4 rounded-xl border border-[#262626] bg-[#171717] p-4">
                         <img 
                           src={tag.post_image} 
-                          alt="Tagged post" 
+                          alt={t('settings.taggedPostAlt')} 
                           className="h-16 w-16 rounded-lg object-cover border border-[#262626]"
                         />
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-white">
-                            {tag.uploaded_by} tagged you
+                            {t('settings.taggedYou', { name: tag.uploaded_by })}
                           </p>
                           <p className="text-xs text-white/50">
-                            Confidence: {Math.round(tag.confidence)}%
+                            {t('settings.confidence', { count: Math.round(tag.confidence) })}
                           </p>
                         </div>
                         <div className="flex gap-2">
@@ -83,13 +85,13 @@ export default function SettingsPage() {
                             onClick={() => handleReview(tag.id, 'reject')}
                             className="px-3 py-1.5 rounded-lg border border-[#262626] text-white text-xs font-bold hover:bg-red-500/10 hover:text-red-500"
                           >
-                            Reject
+                            {t('common.reject')}
                           </button>
                           <button 
                             onClick={() => handleReview(tag.id, 'accept')}
                             className="px-3 py-1.5 rounded-lg bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-[#000] text-xs font-bold transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
                           >
-                            Accept
+                            {t('common.accept')}
                           </button>
                         </div>
                       </div>

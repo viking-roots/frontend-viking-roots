@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import '../styles/AuthPages.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +25,7 @@ export default function LoginPage() {
 
       const data = await response.json();
       if (!response.ok) {
-        alert(data.error || 'Login failed. Please check your credentials.');
+        alert(data.error || t('auth.loginFailed'));
         return;
       }
 
@@ -40,7 +42,7 @@ export default function LoginPage() {
         navigate('/profile');
       }
     } catch {
-      alert('Network error. Please check your connection and try again.');
+      alert(t('auth.errors.network'));
     } finally {
       setIsLoading(false);
     }
@@ -51,12 +53,12 @@ export default function LoginPage() {
       
       <main className="auth-main">
         <div className="auth-card">
-          <h1>Welcome Back</h1>
-          <p>Sign in to continue your family story.</p>
+          <h1>{t('auth.welcomeBack')}</h1>
+          <p>{t('auth.welcomeBackCopy')}</p>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <label>
-              Email
+              {t('auth.email')}
               <input
                 type="email"
                 value={email}
@@ -67,7 +69,7 @@ export default function LoginPage() {
             </label>
 
             <label>
-              Password
+              {t('auth.password')}
               <input
                 type="password"
                 value={password}
@@ -77,14 +79,14 @@ export default function LoginPage() {
             </label>
 
             <button type="submit" disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? t('auth.loggingIn') : t('auth.login')}
             </button>
           </form>
 
           <div className="auth-links">
-            <Link to="/forgot-password">Forgot password?</Link>
+            <Link to="/forgot-password">{t('auth.forgotPasswordQuestion')}</Link>
             <br />
-            <Link to="/register">Not a member? Sign Up</Link>
+            <Link to="/register">{t('auth.notMemberSignUp')}</Link>
           </div>
         </div>
       </main>
