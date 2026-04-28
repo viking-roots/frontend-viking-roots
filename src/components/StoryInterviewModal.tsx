@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { API_ENDPOINTS } from '../config/api';
 import './StoryInterviewModal.css';
 
@@ -14,6 +15,7 @@ interface StoryInterviewModalProps {
 }
 
 export function StoryInterviewModal({ isOpen, onClose, initialPrompt }: StoryInterviewModalProps) {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -91,8 +93,8 @@ export function StoryInterviewModal({ isOpen, onClose, initialPrompt }: StoryInt
           <div className="keeper-info">
             <span className="keeper-icon">📜</span>
             <div>
-              <h3>Keeper of Tales</h3>
-              <p>AI Heritage Storyteller</p>
+              <h3>{t('story.keeperTitle')}</h3>
+              <p>{t('story.keeperSubtitle')}</p>
             </div>
           </div>
           <button className="close-btn" onClick={onClose}>&times;</button>
@@ -112,7 +114,7 @@ export function StoryInterviewModal({ isOpen, onClose, initialPrompt }: StoryInt
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Tell your story..."
+            placeholder={t('story.placeholder')}
             autoFocus
           />
           <button type="submit" disabled={isLoading || !input.trim()}>

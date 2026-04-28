@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { KinLogo } from "@/components/kin-logo";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { LoginModal } from "@/components/login-modal";
 import { SignUpModal } from "@/components/sign-up-modal";
 
 export function Navbar() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
@@ -25,12 +28,12 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#262626] bg-[#0a0a0a]">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-3 sm:px-5 lg:px-6" aria-label="Main navigation">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-3 sm:px-5 lg:px-6" aria-label={t("nav.mainNavigation")}>
         
         {/* 1. Dynamic Logo */}
         <Link to="/" className="flex shrink-0 items-center gap-3">
           <KinLogo size={36} />
-          <span className="hidden text-lg font-bold text-white min-[390px]:inline">Viking Roots</span>
+          <span className="hidden text-lg font-bold text-white min-[390px]:inline">{t("common.appName")}</span>
         </Link>
 
         {/* 2. Center Search Bar (ONLY VISIBLE IF LOGGED IN) */}
@@ -44,7 +47,7 @@ export function Navbar() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search people, photos, circles..."
+              placeholder={t("nav.searchPlaceholder")}
               className="h-10 w-full rounded-full border border-[#262626] bg-[#171717] pl-10 pr-4 text-sm text-white placeholder-[#6b7280] outline-none transition-colors focus:border-[#c88a65] focus:ring-1 focus:ring-[#c88a65]/40"
             />
           </div>
@@ -52,6 +55,8 @@ export function Navbar() {
 
         {/* 3. Right Side Actions */}
         <div className="flex min-w-0 items-center gap-2 sm:gap-4 lg:gap-6">
+          <LanguageSwitcher className="shrink-0" />
+
           {username ? (
             // ==========================================
             // LOGGED IN STATE
@@ -63,7 +68,7 @@ export function Navbar() {
                   <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                   <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                 </svg>
-                Feed
+                {t("nav.feed")}
               </Link>
 
               {/* Upload Button */}
@@ -71,7 +76,7 @@ export function Navbar() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 5v14M5 12h14" />
                 </svg>
-                Upload
+                {t("nav.upload")}
               </Link>
 
               {/* Notifications */}
@@ -94,7 +99,7 @@ export function Navbar() {
                 
                 {/* Log Out Button */}
                 <button onClick={handleLogout} className="text-[11px] font-bold uppercase tracking-wider text-white/40 transition-colors hover:text-white sm:text-xs">
-                  Log Out
+                  {t("nav.logout")}
                 </button>
               </div>
             </>
@@ -104,10 +109,10 @@ export function Navbar() {
             // ==========================================
             <>
               <Link to="/projects" className="hidden text-base font-semibold text-white transition-colors hover:text-[#c88a65] sm:inline">
-                Explore A Project
+                {t("nav.exploreProject")}
               </Link>
               <button onClick={() => setLoginOpen(true)} className="text-base font-semibold text-white transition-colors hover:text-[#c88a65]">
-                Log In
+                {t("nav.login")}
               </button>
             </>
           )}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { KinLogo } from "@/components/kin-logo";
 import { API_ENDPOINTS } from "@/config/api"; // Adjust this path if needed based on your aliases
@@ -12,6 +13,7 @@ interface LoginModalProps {
 export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   
   // ADDED: State management from LoginPage
   const [email, setEmail] = useState('');
@@ -69,7 +71,7 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
 
       const data = await response.json();
       if (!response.ok) {
-        alert(data.error || 'Login failed. Please check your credentials.');
+        alert(data.error || t('auth.loginFailed'));
         return;
       }
 
@@ -88,7 +90,7 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
         navigate('/profile');
       }
     } catch {
-      alert('Network error. Please check your connection and try again.');
+      alert(t('auth.errors.network'));
     } finally {
       setIsLoading(false);
     }
@@ -104,16 +106,16 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
     >
       <div className="mb-8 flex items-center gap-3">
         <KinLogo size={48} />
-        <span className="text-2xl font-bold tracking-wide text-white">Viking Roots</span>
+        <span className="text-2xl font-bold tracking-wide text-white">{t('common.appName')}</span>
       </div>
 
-      <h2 className="mb-8 text-4xl font-bold text-white">Welcome</h2>
+      <h2 className="mb-8 text-4xl font-bold text-white">{t('common.welcome')}</h2>
 
       {/* UPDATED: Connected to handleSubmit */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="loginEmail" className="text-sm font-semibold text-white">
-            Email Address
+            {t('auth.emailAddress')}
           </label>
           <input
             id="loginEmail"
@@ -127,7 +129,7 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="loginPassword" className="text-sm font-semibold text-white">
-            Password
+            {t('auth.password')}
           </label>
           <input
             id="loginPassword"
@@ -145,7 +147,7 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
           disabled={isLoading}
           className="mt-2 h-12 w-full rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold tracking-widest text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'SIGNING IN...' : 'SIGN IN'}
+          {isLoading ? t('auth.signingIn') : t('auth.signIn')}
         </button>
 
         <div className="flex flex-col items-center gap-2 text-sm font-bold uppercase tracking-wide">
@@ -154,14 +156,14 @@ export function LoginModal({ open, onClose, onSignUpClick }: LoginModalProps) {
             onClick={handleSignUpClick}
             className="text-[#c88a65] transition-opacity hover:opacity-80"
           >
-            Sign Up
+            {t('auth.signUp')}
           </button>
           <button
             type="button"
             onClick={handleForgotPasswordClick}
             className="text-[#c88a65] transition-opacity hover:opacity-80"
           >
-            Forgot Password?
+            {t('auth.forgotPasswordQuestion')}
           </button>
         </div>
       </form>

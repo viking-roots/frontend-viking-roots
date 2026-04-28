@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
 import { KinLogo } from "@/components/kin-logo";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [fullName, setFullName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [birthPlace, setBirthPlace] = useState("");
@@ -36,10 +38,10 @@ export default function WelcomePage() {
             {/* Heading */}
             <div className="mb-8 text-center">
               <h1 className="mb-2 text-3xl font-bold text-white md:text-4xl">
-                Welcome to Your Family Storybuilder!
+                {t("welcomePage.title")}
               </h1>
               <p className="text-base text-white/60">
-                Let's start with a few details for your profile.
+                {t("welcomePage.subtitle")}
               </p>
             </div>
 
@@ -52,8 +54,7 @@ export default function WelcomePage() {
                 <div className="relative rounded-xl border border-[#c88a65]/30 bg-[#0a0a0a] p-4">
                   <div className="absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l border-t border-[#c88a65]/30 bg-[#0a0a0a]" />
                   <p className="relative text-center text-sm text-white/80">
-                    <span className="font-bold text-[#c88a65]">Hello!</span> Let's build
-                    the first chapter of your family story.
+                    <span className="font-bold text-[#c88a65]">{t("welcomePage.bubbleGreeting")}</span> {t("welcomePage.bubbleCopy")}
                   </p>
                 </div>
 
@@ -95,7 +96,7 @@ export default function WelcomePage() {
               <form onSubmit={handleNext} className="flex flex-1 flex-col gap-5">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="welcomeName" className="text-sm font-semibold text-white">
-                    What is your full name?
+                    {t("welcomePage.fullNameQuestion")}
                   </label>
                   <input
                     id="welcomeName"
@@ -103,15 +104,15 @@ export default function WelcomePage() {
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Karen Erikkson"
+                    placeholder={t("welcomePage.namePlaceholder")}
                     className="h-11 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:ring-2 focus:ring-[#c88a65]/60"
                   />
-                  <span className="text-xs text-[#6b7280]">Ex: Martha Johnsonson</span>
+                  <span className="text-xs text-[#6b7280]">{t("welcomePage.nameExample")}</span>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="welcomeBirth" className="text-sm font-semibold text-white">
-                    Date of birth
+                    {t("welcomePage.birthDate")}
                   </label>
                   <input
                     id="welcomeBirth"
@@ -120,33 +121,33 @@ export default function WelcomePage() {
                     onChange={(e) => setBirthDate(e.target.value)}
                     className="h-11 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#c88a65]/60 [color-scheme:dark]"
                   />
-                  <span className="text-xs text-[#6b7280]">Ex: October 24, 1955</span>
+                  <span className="text-xs text-[#6b7280]">{t("welcomePage.birthExample")}</span>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="welcomePlace" className="text-sm font-semibold text-white">
-                    Where were you born?
+                    {t("welcomePage.birthPlace")}
                   </label>
                   <input
                     id="welcomePlace"
                     type="text"
                     value={birthPlace}
                     onChange={(e) => setBirthPlace(e.target.value)}
-                    placeholder="Winnipeg, Manitoba"
+                    placeholder={t("welcomePage.birthPlacePlaceholder")}
                     className="h-11 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:ring-2 focus:ring-[#c88a65]/60"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="welcomeOrigin" className="text-sm font-semibold text-white">
-                    Family heritage or origin (optional)
+                    {t("welcomePage.familyOrigin")}
                   </label>
                   <input
                     id="welcomeOrigin"
                     type="text"
                     value={familyOrigin}
                     onChange={(e) => setFamilyOrigin(e.target.value)}
-                    placeholder="Icelandic, Norwegian..."
+                    placeholder={t("welcomePage.familyOriginPlaceholder")}
                     className="h-11 rounded-md border border-[#c88a65] bg-transparent px-3 text-sm text-white placeholder-[#6b7280] outline-none focus:ring-2 focus:ring-[#c88a65]/60"
                   />
                 </div>
@@ -155,7 +156,7 @@ export default function WelcomePage() {
                   type="submit"
                   className="mt-2 h-12 w-full rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold tracking-widest text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white"
                 >
-                  NEXT
+                  {t("welcomePage.next")}
                 </button>
               </form>
             </div>
@@ -163,13 +164,13 @@ export default function WelcomePage() {
             {/* Privacy note */}
             <div className="mt-8 flex items-center justify-between border-t border-[#262626] pt-6">
               <p className="text-xs text-white/40">
-                Only you can see this. We will never share without your permission.
+                {t("welcomePage.privacyNote")}
               </p>
               <button
                 onClick={() => navigate("/dashboard")}
                 className="text-sm font-semibold text-[#c88a65] transition-opacity hover:opacity-80"
               >
-                Skip this for now &gt;
+                {t("welcomePage.skip")}
               </button>
             </div>
           </div>
@@ -184,17 +185,17 @@ export default function WelcomePage() {
               <circle cx="12" cy="12" r="10" />
               <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
             </svg>
-            <span>English</span>
+            <span>{t("common.language")}</span>
           </div>
           <nav className="flex gap-6">
             <Link to="/about" className="text-xs text-white/40 transition-colors hover:text-[#c88a65]">
-              About Us
+              {t("common.aboutUs")}
             </Link>
             <Link to="/help" className="text-xs text-white/40 transition-colors hover:text-[#c88a65]">
-              Help
+              {t("common.help")}
             </Link>
             <Link to="/privacy" className="text-xs text-white/40 transition-colors hover:text-[#c88a65]">
-              Privacy
+              {t("common.privacy")}
             </Link>
           </nav>
         </div>

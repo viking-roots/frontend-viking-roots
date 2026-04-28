@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL, API_ENDPOINTS } from '../config/api';
 import '../styles/Groups.css';
@@ -39,6 +40,7 @@ interface PostData {
 export default function GroupsPage() {
   const navigate = useNavigate();
   const { groupId } = useParams<{ groupId: string }>();
+  const { t } = useTranslation();
 
   const [groups, setGroups] = useState<GroupData[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -196,24 +198,24 @@ export default function GroupsPage() {
       <div className="groups-page">
         
         <main className="groups-wrap">
-          <button className="back-btn" onClick={() => navigate('/groups')}>Back to groups</button>
+          <button className="back-btn" onClick={() => navigate('/groups')}>{t('groups.backToGroups')}</button>
 
           {detailLoading ? (
-            <p>Loading group...</p>
+            <p>{t('groups.loadingGroup')}</p>
           ) : (
             <>
               <section className="group-detail-header">
                 <h1>{selectedGroup.name}</h1>
                 <p>{selectedGroup.description}</p>
-                <p>{selectedGroup.member_count} members</p>
+                <p>{t('common.memberCount', { count: selectedGroup.member_count })}</p>
                 <div className="group-actions">
                   {isMember ? (
-                    <button className="leave-btn" onClick={() => leaveGroup(selectedGroup.id)}>Leave</button>
+                    <button className="leave-btn" onClick={() => leaveGroup(selectedGroup.id)}>{t('common.leave')}</button>
                   ) : (
-                    <button className="join-btn" onClick={() => joinGroup(selectedGroup.id)}>Join</button>
+                    <button className="join-btn" onClick={() => joinGroup(selectedGroup.id)}>{t('common.join')}</button>
                   )}
                   {isMember && selectedGroup.my_membership?.role === 'admin' ? (
-                    <button className="add-member-btn" onClick={() => setShowAddMemberModal(true)}>Add members</button>
+                    <button className="add-member-btn" onClick={() => setShowAddMemberModal(true)}>{t('groups.addMembers')}</button>
                   ) : null}
                 </div>
               </section>
@@ -226,10 +228,10 @@ export default function GroupsPage() {
                         className="post-input"
                         value={newPostContent}
                         onChange={(e) => setNewPostContent(e.target.value)}
-                        placeholder="Share with this group..."
+                        placeholder={t('groups.shareWithGroup')}
                         rows={3}
                       />
-                      <button className="post-submit-btn" type="submit">Post</button>
+                      <button className="post-submit-btn" type="submit">{t('common.post')}</button>
                     </form>
                   ) : null}
 
@@ -238,15 +240,15 @@ export default function GroupsPage() {
                       <h3>@{post.author.username}</h3>
                       <p>{post.content}</p>
                       <div className="post-footer">
-                        <span>Likes {post.like_count}</span>
-                        <span>Comments {post.comment_count}</span>
+                        <span>{t('groups.likes', { count: post.like_count })}</span>
+                        <span>{t('groups.comments', { count: post.comment_count })}</span>
                       </div>
                     </article>
                   ))}
                 </div>
 
                 <aside className="group-members-sidebar">
-                  <h3>Members</h3>
+                  <h3>{t('common.members')}</h3>
                   {groupMembers.map((member) => (
                     <div key={member.id} className="member-item">@{member.username}</div>
                   ))}
@@ -258,10 +260,10 @@ export default function GroupsPage() {
           {showAddMemberModal ? (
             <div className="modal-overlay" onClick={() => setShowAddMemberModal(false)}>
               <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <h2>Add members</h2>
+                <h2>{t('groups.addMembers')}</h2>
                 <input
                   className="member-search-input"
-                  placeholder="Search users"
+                  placeholder={t('groups.searchUsers')}
                   value={memberSearch}
                   onChange={(e) => setMemberSearch(e.target.value)}
                 />
@@ -269,7 +271,7 @@ export default function GroupsPage() {
                   {memberSearchResults.map((u) => (
                     <div key={u.id} className="member-search-item">
                       <span>@{u.username}</span>
-                      <button onClick={() => addMember(u.id)}>Add</button>
+                      <button onClick={() => addMember(u.id)}>{t('common.add')}</button>
                     </div>
                   ))}
                 </div>
@@ -286,29 +288,29 @@ export default function GroupsPage() {
       
       <main className="groups-wrap">
         <section className="groups-header">
-          <h1>Community Groups</h1>
-          <button className="create-group-btn" onClick={() => setShowCreateModal(true)}>Create Group</button>
+          <h1>{t('groups.communityGroups')}</h1>
+          <button className="create-group-btn" onClick={() => setShowCreateModal(true)}>{t('groups.createGroup')}</button>
         </section>
 
         <input
           className="group-search-input"
-          placeholder="Search groups"
+          placeholder={t('groups.searchGroups')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        {loading ? <p>Loading groups...</p> : null}
+        {loading ? <p>{t('groups.loadingGroups')}</p> : null}
 
         <section className="groups-grid">
           {groups.map((group) => (
             <article key={group.id} className="group-card">
               <button className="group-name" onClick={() => navigate(`/groups/${group.id}`)}>{group.name}</button>
-              <p className="group-desc">{group.description || 'No description'}</p>
-              <p className="member-count">{group.member_count} members</p>
+              <p className="group-desc">{group.description || t('common.noDescription')}</p>
+              <p className="member-count">{t('common.memberCount', { count: group.member_count })}</p>
               {group.membership?.status === 'active' ? (
-                <button className="leave-btn-sm" onClick={() => leaveGroup(group.id)}>Leave</button>
+                <button className="leave-btn-sm" onClick={() => leaveGroup(group.id)}>{t('common.leave')}</button>
               ) : (
-                <button className="join-btn-sm" onClick={() => joinGroup(group.id)}>Join</button>
+                <button className="join-btn-sm" onClick={() => joinGroup(group.id)}>{t('common.join')}</button>
               )}
             </article>
           ))}
@@ -317,24 +319,24 @@ export default function GroupsPage() {
         {showCreateModal ? (
           <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2>Create Group</h2>
+              <h2>{t('groups.createGroup')}</h2>
               <form onSubmit={createGroup}>
                 <input
                   value={newGroupName}
                   onChange={(e) => setNewGroupName(e.target.value)}
-                  placeholder="Group name"
+                  placeholder={t('groups.groupName')}
                   required
                 />
                 <textarea
                   value={newGroupDescription}
                   onChange={(e) => setNewGroupDescription(e.target.value)}
-                  placeholder="Description"
+                  placeholder={t('groups.description')}
                 />
                 <div className="modal-actions">
                   <button type="button" className="cancel-btn" onClick={() => setShowCreateModal(false)}>
-                    Cancel
+                    {t('common.cancel')}
                   </button>
-                  <button type="submit" className="submit-btn">Create</button>
+                  <button type="submit" className="submit-btn">{t('common.create')}</button>
                 </div>
               </form>
             </div>

@@ -1,4 +1,5 @@
 import { type FormEvent, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Loader2, Pencil, Plus, Save, Search, Shield, Trash2, User, X } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 
@@ -60,18 +61,19 @@ async function readJson<T>(response: Response): Promise<T> {
   }
 }
 
-function formatDate(value: string | null) {
-  if (!value) return 'Never';
-  return new Date(value).toLocaleString();
+function formatDate(value: string | null, locale: string, neverLabel: string) {
+  if (!value) return neverLabel;
+  return new Date(value).toLocaleString(locale);
 }
 
-function roleLabel(user: AdminUser) {
-  if (user.is_superuser) return 'Superuser';
-  if (user.is_staff) return 'Staff';
-  return 'User';
+function roleLabel(user: AdminUser, t: (key: string) => string) {
+  if (user.is_superuser) return t('admin.superuser');
+  if (user.is_staff) return t('admin.staff');
+  return t('common.user');
 }
 
 export default function AdminDashboard() {
+  const { t, i18n } = useTranslation();
   const canAccessAdmin =
     localStorage.getItem('isStaff') === 'true' ||
     localStorage.getItem('isSuperuser') === 'true';
@@ -95,11 +97,11 @@ export default function AdminDashboard() {
         currentUser.email,
         currentUser.first_name,
         currentUser.last_name,
-        roleLabel(currentUser),
+        roleLabel(currentUser, t),
       ].join(' ').toLowerCase();
       return searchable.includes(normalizedQuery);
     });
-  }, [query, users]);
+  }, [query, t, users]);
 
   const fetchUsers = async (clearMessage = true) => {
     setIsLoading(true);
@@ -112,14 +114,14 @@ export default function AdminDashboard() {
       const data = await readJson<UserListResponse>(response);
 
       if (!response.ok) {
-        setMessage(data.error || 'Unable to load users.');
+        setMessage(data.error || t('admin.unableLoad'));
         setUsers([]);
         return;
       }
 
       setUsers(data.users || []);
     } catch {
-      setMessage('Network error. Please check your connection and try again.');
+      setMessage(t('auth.errors.network'));
       setUsers([]);
     } finally {
       setIsLoading(false);
@@ -193,26 +195,26 @@ export default function AdminDashboard() {
       const data = await readJson<UserResponse>(response);
 
       if (!response.ok) {
-        setMessage(data.error || 'Unable to save user.');
+        setMessage(data.error || t('admin.unableSave'));
         return;
       }
 
       setMessage(
         modalMode === 'create'
-          ? `User created. Welcome email ${data.welcome_email_sent ? 'sent' : 'queued or skipped by email backend'}.`
-          : data.message || 'User updated.',
+          ? t('admin.createdWelcome', { status: data.welcome_email_sent ? t('admin.sent') : t('admin.queued') })
+          : data.message || t('admin.userUpdated'),
       );
       closeModal();
       await fetchUsers(false);
     } catch {
-      setMessage('Network error. Please check your connection and try again.');
+      setMessage(t('auth.errors.network'));
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleDelete = async (userToDelete: AdminUser) => {
-    const confirmed = window.confirm(`Delete ${userToDelete.username}?`);
+    const confirmed = window.confirm(t('admin.deleteConfirm', { username: userToDelete.username }));
     if (!confirmed) return;
 
     setDeletingUserId(userToDelete.id);
@@ -226,14 +228,14 @@ export default function AdminDashboard() {
       const data = await readJson<ApiMessage>(response);
 
       if (!response.ok) {
-        setMessage(data.error || 'Unable to delete user.');
+        setMessage(data.error || t('admin.unableDelete'));
         return;
       }
 
-      setMessage(data.message || 'User deleted.');
+      setMessage(data.message || t('admin.userDeleted'));
       await fetchUsers(false);
     } catch {
-      setMessage('Network error. Please check your connection and try again.');
+      setMessage(t('auth.errors.network'));
     } finally {
       setDeletingUserId(null);
     }
@@ -244,9 +246,9 @@ export default function AdminDashboard() {
       <div className="flex min-h-[60vh] items-center justify-center text-white">
         <div className="max-w-md rounded-lg border border-[#262626] bg-[#171717] p-6 text-center">
           <Shield className="mx-auto mb-3 text-[#c88a65]" size={32} />
-          <h1 className="text-xl font-bold">Admin Access Required</h1>
+          <h1 className="text-xl font-bold">{t('admin.accessRequired')}</h1>
           <p className="mt-2 text-sm text-white/60">
-            Log in with a staff or superuser account to manage users.
+            {t('admin.accessCopy')}
           </p>
         </div>
       </div>
@@ -258,8 +260,8 @@ export default function AdminDashboard() {
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <header className="flex flex-col gap-4 border-b border-[#262626] pb-5 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-[#c88a65]">Admin Panel</p>
-            <h1 className="text-2xl font-bold text-white">Users</h1>
+            <p className="text-sm font-semibold uppercase tracking-wide text-[#c88a65]">{t('admin.panel')}</p>
+            <h1 className="text-2xl font-bold text-white">{t('admin.users')}</h1>
           </div>
 
           <button
@@ -268,7 +270,7 @@ export default function AdminDashboard() {
             className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#c88a65] px-4 text-sm font-bold text-black transition hover:bg-[#eab2a0]"
           >
             <Plus size={18} />
-            Create User
+            {t('admin.createUser')}
           </button>
         </header>
 
@@ -279,14 +281,14 @@ export default function AdminDashboard() {
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search users"
+              placeholder={t('admin.searchUsers')}
               className="h-10 w-full rounded-lg border border-[#262626] bg-[#111] pl-10 pr-3 text-sm text-white outline-none transition focus:border-[#c88a65]"
             />
           </div>
 
           <div className="flex items-center gap-2 text-sm text-white/55">
             <User size={16} />
-            <span>{users.length} total</span>
+            <span>{t('common.totalCount', { count: users.length })}</span>
           </div>
         </div>
 
@@ -306,19 +308,19 @@ export default function AdminDashboard() {
               <table className="w-full min-w-[860px] border-collapse text-left">
                 <thead className="border-b border-[#262626] bg-[#171717] text-xs uppercase tracking-wide text-white/45">
                   <tr>
-                    <th className="px-4 py-3 font-semibold">User</th>
-                    <th className="px-4 py-3 font-semibold">Role</th>
-                    <th className="px-4 py-3 font-semibold">Status</th>
-                    <th className="px-4 py-3 font-semibold">Joined</th>
-                    <th className="px-4 py-3 font-semibold">Last Login</th>
-                    <th className="px-4 py-3 text-right font-semibold">Actions</th>
+                    <th className="px-4 py-3 font-semibold">{t('common.user')}</th>
+                    <th className="px-4 py-3 font-semibold">{t('common.role')}</th>
+                    <th className="px-4 py-3 font-semibold">{t('common.status')}</th>
+                    <th className="px-4 py-3 font-semibold">{t('common.joined')}</th>
+                    <th className="px-4 py-3 font-semibold">{t('common.lastLogin')}</th>
+                    <th className="px-4 py-3 text-right font-semibold">{t('common.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#262626]">
                   {filteredUsers.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="px-4 py-12 text-center text-sm text-white/50">
-                        No users found.
+                        {t('admin.noUsers')}
                       </td>
                     </tr>
                   ) : (
@@ -338,7 +340,7 @@ export default function AdminDashboard() {
                         <td className="px-4 py-4">
                           <span className="inline-flex items-center gap-1 rounded-md border border-[#3a302b] px-2 py-1 text-xs font-semibold text-white/70">
                             <Shield size={13} />
-                            {roleLabel(currentUser)}
+                            {roleLabel(currentUser, t)}
                           </span>
                         </td>
                         <td className="px-4 py-4">
@@ -349,11 +351,11 @@ export default function AdminDashboard() {
                                 : 'bg-red-500/10 text-red-300'
                             }`}
                           >
-                            {currentUser.is_active ? 'Active' : 'Inactive'}
+                            {currentUser.is_active ? t('common.active') : t('common.inactive')}
                           </span>
                         </td>
-                        <td className="px-4 py-4 text-xs text-white/55">{formatDate(currentUser.date_joined)}</td>
-                        <td className="px-4 py-4 text-xs text-white/55">{formatDate(currentUser.last_login)}</td>
+                        <td className="px-4 py-4 text-xs text-white/55">{formatDate(currentUser.date_joined, i18n.resolvedLanguage ?? i18n.language, t('common.never'))}</td>
+                        <td className="px-4 py-4 text-xs text-white/55">{formatDate(currentUser.last_login, i18n.resolvedLanguage ?? i18n.language, t('common.never'))}</td>
                         <td className="px-4 py-4">
                           <div className="flex justify-end gap-2">
                             <button
@@ -362,7 +364,7 @@ export default function AdminDashboard() {
                               className="inline-flex h-9 items-center gap-2 rounded-lg border border-[#333] px-3 text-xs font-semibold text-white/75 transition hover:border-[#c88a65] hover:text-white"
                             >
                               <Pencil size={14} />
-                              Edit
+                              {t('common.edit')}
                             </button>
                             <button
                               type="button"
@@ -375,7 +377,7 @@ export default function AdminDashboard() {
                               ) : (
                                 <Trash2 size={14} />
                               )}
-                              Delete
+                              {t('common.delete')}
                             </button>
                           </div>
                         </td>
@@ -395,15 +397,15 @@ export default function AdminDashboard() {
             <div className="mb-5 flex items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-[#c88a65]">
-                  {modalMode === 'create' ? 'New Account' : 'Edit Account'}
+                  {modalMode === 'create' ? t('admin.newAccount') : t('admin.editAccount')}
                 </p>
                 <h2 className="text-xl font-bold text-white">
-                  {modalMode === 'create' ? 'Create User' : selectedUser?.username}
+                  {modalMode === 'create' ? t('admin.createUser') : selectedUser?.username}
                 </h2>
               </div>
               <button
                 type="button"
-                title="Close"
+                title={t('common.close')}
                 onClick={closeModal}
                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#333] text-white/60 transition hover:text-white"
               >
@@ -414,7 +416,7 @@ export default function AdminDashboard() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="flex flex-col gap-1.5 text-sm font-semibold text-white/75">
-                  Username
+                  {t('auth.username')}
                   <input
                     type="text"
                     value={form.username}
@@ -425,7 +427,7 @@ export default function AdminDashboard() {
                 </label>
 
                 <label className="flex flex-col gap-1.5 text-sm font-semibold text-white/75">
-                  Email
+                  {t('auth.email')}
                   <input
                     type="email"
                     value={form.email}
@@ -440,7 +442,7 @@ export default function AdminDashboard() {
                 <>
                   <div className="grid gap-4 md:grid-cols-2">
                     <label className="flex flex-col gap-1.5 text-sm font-semibold text-white/75">
-                      First Name
+                      {t('admin.firstName')}
                       <input
                         type="text"
                         value={form.first_name}
@@ -450,7 +452,7 @@ export default function AdminDashboard() {
                     </label>
 
                     <label className="flex flex-col gap-1.5 text-sm font-semibold text-white/75">
-                      Last Name
+                      {t('admin.lastName')}
                       <input
                         type="text"
                         value={form.last_name}
@@ -468,7 +470,7 @@ export default function AdminDashboard() {
                         onChange={(event) => updateBooleanField('is_active', event.target.checked)}
                         className="h-4 w-4 accent-[#c88a65]"
                       />
-                      Active
+                      {t('common.active')}
                     </label>
 
                     <label className="flex items-center gap-3 rounded-lg border border-[#333] bg-[#0a0a0a] p-3 text-sm font-semibold text-white/75">
@@ -478,7 +480,7 @@ export default function AdminDashboard() {
                         onChange={(event) => updateBooleanField('is_staff', event.target.checked)}
                         className="h-4 w-4 accent-[#c88a65]"
                       />
-                      Staff
+                      {t('admin.staff')}
                     </label>
 
                     <label className="flex items-center gap-3 rounded-lg border border-[#333] bg-[#0a0a0a] p-3 text-sm font-semibold text-white/75">
@@ -488,7 +490,7 @@ export default function AdminDashboard() {
                         onChange={(event) => updateBooleanField('is_superuser', event.target.checked)}
                         className="h-4 w-4 accent-[#c88a65]"
                       />
-                      Superuser
+                      {t('admin.superuser')}
                     </label>
                   </div>
                 </>
@@ -500,7 +502,7 @@ export default function AdminDashboard() {
                   onClick={closeModal}
                   className="inline-flex h-10 items-center justify-center rounded-lg border border-[#333] px-4 text-sm font-semibold text-white/70 transition hover:text-white"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </button>
                 <button
                   type="submit"
@@ -508,7 +510,7 @@ export default function AdminDashboard() {
                   className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#c88a65] px-4 text-sm font-bold text-black transition hover:bg-[#eab2a0] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSaving ? <Loader2 className="animate-spin" size={17} /> : <Save size={17} />}
-                  {modalMode === 'create' ? 'Create' : 'Save'}
+                  {modalMode === 'create' ? t('common.create') : t('common.save')}
                 </button>
               </div>
             </form>

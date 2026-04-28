@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Footer } from '../components/Footer';
 import { API_BASE_URL } from '../config/api';
@@ -19,6 +20,7 @@ interface Ancestor {
 }
 
 export default function HeritageDashboard() {
+  const { t } = useTranslation();
   const [timeline, setTimeline] = useState<TimelineEvent[]>([]);
   const [ancestors, setAncestors] = useState<Ancestor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,10 +49,10 @@ export default function HeritageDashboard() {
     <div style={{ minHeight: '100vh', background: 'var(--surface-bg)', color: 'var(--surface-fg)' }}>
       
       <main style={{ maxWidth: 1000, margin: '0 auto', padding: '2rem 1rem' }}>
-        <h1>Heritage Dashboard</h1>
-        {loading ? <p>Loading...</p> : null}
+        <h1>{t('heritage.dashboard')}</h1>
+        {loading ? <p>{t('common.loadingEllipsis')}</p> : null}
         <section style={{ display: 'grid', gap: 10 }}>
-          <h2>Timeline</h2>
+          <h2>{t('heritage.timeline')}</h2>
           {timeline.map((item) => (
             <article key={item.id} style={{ border: '1px solid var(--surface-border)', borderRadius: 10, background: 'var(--surface-elev)', padding: '0.75rem' }}>
               <strong>{item.year}</strong> {item.title}
@@ -59,7 +61,7 @@ export default function HeritageDashboard() {
           ))}
         </section>
         <section style={{ display: 'grid', gap: 10, marginTop: 16 }}>
-          <h2>Family Tree</h2>
+          <h2>{t('heritage.familyTree')}</h2>
           {ancestors.map((a) => (
             <article key={a.id} style={{ border: '1px solid var(--surface-border)', borderRadius: 10, background: 'var(--surface-elev)', padding: '0.75rem' }}>
               <strong>{a.name}</strong> ({a.relation})

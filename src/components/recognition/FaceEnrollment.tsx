@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { API_ENDPOINTS } from '../../config/api';
 
 export function FaceEnrollment() {
+  const { t } = useTranslation();
   const [status, setStatus] = useState<{ is_enrolled: boolean; face_count: number } | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -28,7 +30,7 @@ export function FaceEnrollment() {
     if (e.target.files) {
       const files = Array.from(e.target.files);
       if (files.length > 5) {
-        alert('Please select a maximum of 5 photos.');
+        alert(t('recognition.maxPhotos'));
         return;
       }
       setSelectedFiles(files);
@@ -40,7 +42,7 @@ export function FaceEnrollment() {
     if (selectedFiles.length === 0) return;
 
     setUploading(true);
-    setMessage('Processing your photos... This may take 10-20 seconds.');
+    setMessage(t('recognition.processingPhotos'));
     const formData = new FormData();
     selectedFiles.forEach(file => formData.append('images', file));
 
@@ -52,21 +54,21 @@ export function FaceEnrollment() {
       });
       const data = await res.json();
       if (res.ok) {
-        setMessage('✓ Enrollment successful! You can now be tagged in photos.');
+        setMessage(t('recognition.enrollmentSuccess'));
         fetchStatus();
         setSelectedFiles([]);
       } else {
-        setMessage(data.error || 'Enrollment failed. Please try again with clearer photos.');
+        setMessage(data.error || t('recognition.enrollmentFailed'));
       }
     } catch (err) {
-      setMessage('An error occurred during upload. Please try again.');
+      setMessage(t('recognition.uploadError'));
     } finally {
       setUploading(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete your biometric face data? This will disable face tagging suggestions for you.')) return;
+    if (!window.confirm(t('recognition.deleteConfirm'))) return;
 
     try {
       const res = await fetch(API_ENDPOINTS.RECOGNITION_DELETE, {
@@ -74,7 +76,7 @@ export function FaceEnrollment() {
         credentials: 'include'
       });
       if (res.ok) {
-        setMessage('Biometric data deleted.');
+        setMessage(t('recognition.deleted'));
         fetchStatus();
       }
     } catch (err) {
@@ -88,38 +90,38 @@ export function FaceEnrollment() {
     <div className="rounded-xl border border-[#262626] bg-[#171717] p-6">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-bold text-white">Face Enrollment</h3>
-          <p className="text-sm text-white/50">Help Viking Roots recognize you in photos shared by friends.</p>
+          <h3 className="text-lg font-bold text-white">{t('recognition.faceEnrollment')}</h3>
+          <p className="text-sm text-white/50">{t('recognition.faceEnrollmentCopy')}</p>
         </div>
         <div className={`px-3 py-1 rounded-full text-xs font-bold ${status?.is_enrolled ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'}`}>
-          {status?.is_enrolled ? 'Enrolled' : 'Not Enrolled'}
+          {status?.is_enrolled ? t('recognition.enrolled') : t('recognition.notEnrolled')}
         </div>
       </div>
 
       {status?.is_enrolled ? (
         <div className="space-y-4">
           <p className="text-sm text-white/70">
-            You have {status.face_count} face samples stored securely using advanced facial recognition.
+            {t('recognition.samplesStored', { count: status.face_count })}
           </p>
           <p className="text-xs text-white/50">
-            Your face data is encrypted and stored privately in our database. We use state-of-the-art AI models to recognize you in photos.
+            {t('recognition.privacyCopy')}
           </p>
           <button 
             onClick={handleDelete}
             className="text-xs font-semibold text-red-500 hover:underline"
           >
-            Delete biometric data
+            {t('recognition.deleteBiometric')}
           </button>
         </div>
       ) : (
         <form onSubmit={handleUpload} className="space-y-4">
           <div className="mb-3 rounded-lg bg-blue-500/10 border border-blue-500/20 p-3">
             <p className="text-xs text-blue-400">
-              <strong>📸 Tips for best results:</strong>
-              <br />• Upload 3-5 clear, well-lit photos of your face
-              <br />• Include different angles and expressions
-              <br />• Avoid sunglasses, masks, or heavy shadows
-              <br />• Processing takes 10-20 seconds
+              <strong>{t('recognition.tipsTitle')}</strong>
+              <br />• {t('recognition.tipsLine1')}
+              <br />• {t('recognition.tipsLine2')}
+              <br />• {t('recognition.tipsLine3')}
+              <br />• {t('recognition.tipsLine4')}
             </p>
           </div>
           <div className="rounded-lg border-2 border-dashed border-[#262626] p-8 text-center transition-colors hover:border-[#c88a65]/40">
@@ -137,8 +139,8 @@ export function FaceEnrollment() {
               </svg>
               <span className="text-sm text-white/70">
                 {selectedFiles.length > 0 
-                  ? `${selectedFiles.length} files selected` 
-                  : 'Click to upload 3-5 clear photos of your face'}
+                  ? t('recognition.filesSelected', { count: selectedFiles.length }) 
+                  : t('recognition.uploadPrompt')}
               </span>
             </label>
           </div>
@@ -147,7 +149,7 @@ export function FaceEnrollment() {
             disabled={uploading || selectedFiles.length === 0}
             className="w-full rounded-lg bg-[linear-gradient(to_right,#c88a65_-55%,white)] py-2 text-sm font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
           >
-            {uploading ? 'Processing... Please wait' : 'Complete Enrollment'}
+            {uploading ? t('recognition.processingWait') : t('recognition.completeEnrollment')}
           </button>
         </form>
       )}

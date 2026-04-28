@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, Globe, Calendar, Edit2, User, Camera, X, Check } from 'lucide-react';
 import { PostCard } from '../components/post-card';
@@ -22,6 +23,7 @@ interface Profile {
 const UserProfile: React.FC = () => {
   const { username } = useParams<{ username: string }>();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Auth state
@@ -80,10 +82,10 @@ const UserProfile: React.FC = () => {
 
         fetchUserPosts(fetchedProfile.username);
       } else {
-        setError(data.error || 'Failed to load profile');
+        setError(data.error || t('profile.errors.loadFailed'));
       }
     } catch (err) {
-      setError('Network error. Please check your connection.');
+      setError(t('auth.networkErrorShort'));
     } finally {
       setLoading(false);
     }
@@ -109,7 +111,7 @@ const UserProfile: React.FC = () => {
 
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
     if (!validTypes.includes(file.type) || file.size > 5 * 1024 * 1024) {
-      alert('Invalid file. Must be JPEG/PNG/WebP and under 5MB.');
+      alert(t('profile.errors.invalidFile'));
       return;
     }
 
@@ -136,10 +138,10 @@ const UserProfile: React.FC = () => {
         setProfile(updatedProfile); 
       } else {
         console.error("Upload Error:", data);
-        alert(data.error || 'Failed to upload image.');
+        alert(data.error || t('profile.errors.uploadFailed'));
       }
     } catch (err) {
-      alert('Network error while uploading.');
+      alert(t('profile.errors.uploadNetwork'));
     } finally {
       setUploadingImage(false);
       // Reset input so the same file can be selected again if needed
@@ -176,17 +178,17 @@ const UserProfile: React.FC = () => {
         setIsEditing(false);
       } else {
         console.error("Save Error:", data);
-        alert(data.error || 'Failed to update profile.');
+        alert(data.error || t('profile.errors.updateFailed'));
       }
     } catch (err) {
-      alert('Network error while saving.');
+      alert(t('profile.errors.saveNetwork'));
     } finally {
       setIsSaving(false);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    return new Date(dateString).toLocaleDateString(i18n.resolvedLanguage ?? i18n.language, { month: 'long', year: 'numeric' });
   };
 
   if (loading) return (
@@ -199,10 +201,10 @@ const UserProfile: React.FC = () => {
   if (error || !profile) return (
     <div className="mx-auto max-w-3xl pt-8 pb-12 px-4 text-center">
       <div className="rounded-xl border border-[#262626] bg-[#171717] p-12">
-        <h2 className="text-xl font-bold text-white mb-2">Profile Not Found</h2>
+        <h2 className="text-xl font-bold text-white mb-2">{t('profile.profileNotFound')}</h2>
         <p className="text-white/50 mb-6">{error}</p>
         <button onClick={() => navigate('/dashboard')} className="rounded-lg bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-6 py-2 text-sm font-bold text-[#000]">
-          Return to Dashboard
+          {t('profile.returnToDashboard')}
         </button>
       </div>
     </div>
@@ -256,7 +258,7 @@ const UserProfile: React.FC = () => {
                 onClick={() => setIsEditing(true)} 
                 className="flex items-center gap-2 whitespace-nowrap rounded-lg border border-[#262626] px-4 py-2 text-white transition-colors hover:bg-[#262626]"
               >
-                <Edit2 size={16} /> Edit Profile
+                <Edit2 size={16} /> {t('profile.editProfile')}
               </button>
             )}
           </div>
@@ -267,7 +269,7 @@ const UserProfile: React.FC = () => {
           {isEditing ? (
             <div className="edit-form-container flex flex-col gap-4 rounded-xl border border-[#262626] bg-[#171717] p-4">
               <div>
-                <label className="mb-1 block text-xs text-white/50">Bio</label>
+                <label className="mb-1 block text-xs text-white/50">{t('profile.bio')}</label>
                 <textarea 
                   value={editForm.bio} 
                   onChange={(e) => setEditForm({...editForm, bio: e.target.value})} 
@@ -278,7 +280,7 @@ const UserProfile: React.FC = () => {
               </div>
               <div className="flex flex-col gap-4 md:flex-row">
                 <div className="flex-1">
-                  <label className="mb-1 block text-xs text-white/50">Location</label>
+                  <label className="mb-1 block text-xs text-white/50">{t('profile.location')}</label>
                   <input 
                     type="text" 
                     value={editForm.location} 
@@ -287,7 +289,7 @@ const UserProfile: React.FC = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="mb-1 block text-xs text-white/50">Website</label>
+                  <label className="mb-1 block text-xs text-white/50">{t('profile.website')}</label>
                   <input 
                     type="url" 
                     value={editForm.website} 
@@ -301,14 +303,14 @@ const UserProfile: React.FC = () => {
                   onClick={() => setIsEditing(false)} 
                   className="flex items-center gap-2 rounded-lg px-4 py-2 text-white/60 transition-colors hover:text-white"
                 >
-                  <X size={16}/> Cancel
+                  <X size={16}/> {t('common.cancel')}
                 </button>
                 <button 
                   onClick={handleSaveProfile} 
                   disabled={isSaving} 
                   className="flex items-center gap-2 rounded-lg bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-4 py-2 font-bold text-black hover:bg-[linear-gradient(to_right,#eab2a0,white)] disabled:opacity-50"
                 >
-                  <Check size={16}/> {isSaving ? 'Saving...' : 'Save'}
+                  <Check size={16}/> {isSaving ? t('common.saving') : t('common.save')}
                 </button>
               </div>
             </div>
@@ -335,7 +337,7 @@ const UserProfile: React.FC = () => {
                   </div>
                 )}
                 <div className="flex items-center gap-1.5">
-                  <Calendar size={16} /><span>Joined {formatDate(profile.created_at)}</span>
+                  <Calendar size={16} /><span>{t('profile.joined', { date: formatDate(profile.created_at) })}</span>
                 </div>
               </div>
             </>
@@ -345,17 +347,21 @@ const UserProfile: React.FC = () => {
         {/* Tabbed Content Sections */}
         <div className="profile-sections mt-8 px-8 pb-12">
           <div className="section-tabs mb-6 flex gap-6 border-b border-[#262626]">
-            {['Posts', 'About', 'Photos'].map(tab => (
+            {[
+              { id: 'Posts', label: t('profile.tabs.posts') },
+              { id: 'About', label: t('profile.tabs.about') },
+              { id: 'Photos', label: t('profile.tabs.photos') },
+            ].map(tab => (
               <button 
-                key={tab} 
-                onClick={() => setActiveTab(tab)}
+                key={tab.id} 
+                onClick={() => setActiveTab(tab.id)}
                 className={`pb-3 text-sm font-bold transition-colors ${
-                  activeTab === tab 
+                  activeTab === tab.id 
                     ? 'border-b-2 border-[#c88a65] text-[#c88a65]' 
                     : 'text-white/50 hover:text-white'
                 }`}
               >
-                {tab}
+                {tab.label}
               </button>
             ))}
           </div>
@@ -371,13 +377,13 @@ const UserProfile: React.FC = () => {
               ) : (
                 <div className="empty-state flex flex-col items-center gap-3 rounded-xl border border-[#262626] bg-[#0a0a0a] p-12 text-center">
                   <div className="rounded-full bg-[#262626] p-4 text-white/30"><User size={32} /></div>
-                  <h3 className="font-bold text-white">No posts yet</h3>
-                  <p className="text-sm text-white/50">When {profile.username} shares stories or photos, they'll appear here.</p>
+                  <h3 className="font-bold text-white">{t('profile.noPostsYet')}</h3>
+                  <p className="text-sm text-white/50">{t('profile.noPostsDescription', { username: profile.username })}</p>
                 </div>
               )
             )}
-            {activeTab === 'About' && <div className="text-white/50">Detailed heritage stats coming soon.</div>}
-            {activeTab === 'Photos' && <div className="text-white/50">Media gallery coming soon.</div>}
+            {activeTab === 'About' && <div className="text-white/50">{t('profile.statsSoon')}</div>}
+            {activeTab === 'Photos' && <div className="text-white/50">{t('profile.gallerySoon')}</div>}
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { KinLogo } from "@/components/kin-logo";
 import { API_ENDPOINTS } from "@/config/api";
@@ -11,6 +12,7 @@ interface SignUpModalProps {
 export function SignUpModal({ open, onClose }: SignUpModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -60,7 +62,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
     e.preventDefault();
     setError("");
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError(t("auth.errors.passwordMismatch"));
       return;
     }
     setIsLoading(true);
@@ -73,13 +75,13 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
       });
       const data = await response.json();
       if (!response.ok) {
-        setError(data.error || "Registration failed.");
+        setError(data.error || t("auth.errors.registrationFailed"));
         return;
       }
       onClose();
       navigate("/otp-verify", { state: { email } });
     } catch {
-      setError("Network error. Please check your connection.");
+      setError(t("auth.errors.network"));
     } finally {
       setIsLoading(false);
     }
@@ -96,17 +98,17 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
       <>
         <div className="mb-6 flex items-center gap-3">
           <KinLogo size={48} />
-          <span className="text-2xl font-bold tracking-wide text-white">Viking Roots</span>
+          <span className="text-2xl font-bold tracking-wide text-white">{t("common.appName")}</span>
         </div>
 
-        <h2 className="mb-6 text-3xl font-bold text-white">Join our community</h2>
+        <h2 className="mb-6 text-3xl font-bold text-white">{t("auth.joinCommunity")}</h2>
 
         {error && <p className="mb-4 rounded-md bg-red-900/40 px-3 py-2 text-sm text-red-400">{error}</p>}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="modal-username" className="text-sm font-semibold text-white">
-              Username
+              {t("auth.username")}
             </label>
             <input
               id="modal-username"
@@ -120,7 +122,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
 
           <div className="flex flex-col gap-1.5">
             <label htmlFor="modal-email" className="text-sm font-semibold text-white">
-              Email Address
+              {t("auth.emailAddress")}
             </label>
             <input
               id="modal-email"
@@ -134,7 +136,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
 
           <div className="flex flex-col gap-1.5">
             <label htmlFor="modal-password" className="text-sm font-semibold text-white">
-              Password
+              {t("auth.password")}
             </label>
             <input
               id="modal-password"
@@ -148,7 +150,7 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
 
           <div className="flex flex-col gap-1.5">
             <label htmlFor="modal-confirm" className="text-sm font-semibold text-white">
-              Confirm Password
+              {t("auth.confirmPassword")}
             </label>
             <input
               id="modal-confirm"
@@ -163,9 +165,9 @@ export function SignUpModal({ open, onClose }: SignUpModalProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-2 h-12 w-full rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold tracking-widest text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white disabled:opacity-60"
+            className="mt-2 h-12 w-full rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] text-base font-bold uppercase tracking-widest text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white disabled:opacity-60"
           >
-            {isLoading ? "Creating account..." : "CREATE ACCOUNT"}
+            {isLoading ? t("auth.creatingAccount") : t("auth.createAccount")}
           </button>
         </form>
       </>
