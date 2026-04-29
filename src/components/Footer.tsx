@@ -11,7 +11,7 @@ const footerLinks = [
 
 const socialLinks = [
   { label: "Facebook", href: "https://www.facebook.com/VikingRoots/", icon: "/socials/fb.png" },
-  { label: "Instagram", href: "https://www.instagram.com/vikingroots/", icon: "/socials/ig.png" },
+  { label: "Instagram", href: "https://www.instagram.com/viking_roots/", icon: "/socials/ig.png" },
   { label: "LinkedIn", href: "https://www.linkedin.com/company/vikingroots/", icon: "/socials/yt.png" },
   { label: "TikTok", href: "https://www.tiktok.com/@thevikingroots", icon: "/socials/tk.png" },
   { label: "X", href: "https://x.com/TheVikingRoots", icon: "/socials/x.png" },
