@@ -135,6 +135,8 @@
     "resetting": "Resetowanie...",
     "sendResetCode": "Wyślij kod resetowania",
     "sending": "Wysyłanie...",
+    "setPassword": "Ustaw hasło",
+    "setPasswordCopy": "Wybierz hasło, aby dokończyć konfigurację konta.",
     "signIn": "ZALOGUJ SIĘ",
     "signingIn": "LOGOWANIE...",
     "signUp": "Zarejestruj się",
@@ -166,6 +168,7 @@
     },
     "messages": {
       "freshCodeSent": "Nowy kod weryfikacyjny został wysłany.",
+      "passwordSetSuccess": "Hasło zostało ustawione.",
       "passwordResetSent": "Kod resetowania hasła został wysłany.",
       "passwordResetSuccess": "Hasło zostało zresetowane."
     }

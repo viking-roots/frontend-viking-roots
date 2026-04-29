@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { API_ENDPOINTS } from "@/config/api";
 
@@ -43,6 +43,11 @@ export function PostCard({ post }: PostCardProps) {
   const [likes, setLikes] = useState(likeCount);
   const [saved, setSaved] = useState(false);
   const [comment, setComment] = useState('');
+  const [imageFailed, setImageFailed] = useState(false);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [imageUrl]);
 
   const currentUser = localStorage.getItem('username') || '';
   const currentUserInitial = currentUser ? currentUser[0].toUpperCase() : '?';
@@ -139,8 +144,13 @@ export function PostCard({ post }: PostCardProps) {
       </div>
 
       {/* Post image */}
-      {imageUrl ? (
-        <img src={imageUrl} alt={t("post.imageAlt")} className="w-full object-cover max-h-[480px]" />
+      {imageUrl && !imageFailed ? (
+        <img
+          src={imageUrl}
+          alt={t("post.imageAlt")}
+          className="w-full object-cover max-h-[480px]"
+          onError={() => setImageFailed(true)}
+        />
       ) : (
         <div className="relative aspect-[4/3] w-full bg-[#262626]">
           <div className="flex h-full w-full items-center justify-center">
