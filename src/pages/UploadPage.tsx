@@ -10,7 +10,7 @@ export default function UploadPage() {
       <div className="mx-auto flex max-w-7xl">
         <main className="flex-1 px-4 py-8 md:px-8">
           <div className="mx-auto max-w-xl flex flex-col gap-8">
-            <h1 className="text-2xl font-bold text-white">{t('upload.title')}</h1>
+            <h1 className="text-3xl font-bold text-white text-center">{t('upload.title')}</h1>
             <ImageUpload />
             <GedcomUploader />
           </div>

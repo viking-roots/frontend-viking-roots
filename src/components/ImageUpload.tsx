@@ -33,15 +33,47 @@ export default function ImageUpload() {
   };
 
   return (
-    <section style={{ border: '1px solid var(--surface-border)', borderRadius: 12, background: 'var(--surface-elev)', padding: '1rem' }}>
-      <h2>{t('upload.imageTitle')}</h2>
-      <form onSubmit={upload} style={{ display: 'grid', gap: 10 }}>
-        <input ref={ref} type="file" accept="image/*" onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} />
-        <input placeholder={t('upload.formTitle')} value={title} onChange={(e) => setTitle(e.target.value)} />
-        <textarea placeholder={t('upload.description')} value={description} onChange={(e) => setDescription(e.target.value)} />
-        <button disabled={uploading || !selectedFile} type="submit">{uploading ? t('common.uploading') : t('upload.imageTitle')}</button>
+    <section className="rounded-2xl border border-white/10 bg-[#121212] p-8 shadow-xl">
+      <h2 className="mb-6 text-center text-2xl font-bold text-white">{t('upload.imageTitle')}</h2>
+      <form onSubmit={upload} className="flex flex-col gap-5">
+        <div>
+          <label className="mb-2 block text-sm font-medium text-white/70">
+            {t('upload.imageTitle')}
+          </label>
+          <input
+            ref={ref}
+            type="file"
+            accept="image/*"
+            onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+            className="block w-full text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-[#c88a65]/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#c88a65] hover:file:bg-[#c88a65]/20 focus:outline-none"
+          />
+        </div>
+        <div>
+          <input
+            placeholder={t('upload.formTitle')}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 focus:border-[#c88a65] focus:outline-none focus:ring-1 focus:ring-[#c88a65]"
+          />
+        </div>
+        <div>
+          <textarea
+            placeholder={t('upload.description')}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={3}
+            className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 focus:border-[#c88a65] focus:outline-none focus:ring-1 focus:ring-[#c88a65]"
+          />
+        </div>
+        <button
+          disabled={uploading || !selectedFile}
+          type="submit"
+          className="mt-4 w-full rounded-full bg-[linear-gradient(to_right,#c88a65_-55%,white)] px-6 py-3 text-base font-bold text-[#000] transition-all hover:bg-[linear-gradient(to_right,#eab2a0,white)] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {uploading ? t('common.uploading') : t('upload.imageTitle')}
+        </button>
       </form>
-      {message ? <p style={{ color: 'var(--surface-muted)' }}>{message}</p> : null}
+      {message ? <p className="mt-4 text-sm text-[#c88a65]">{message}</p> : null}
     </section>
   );
 }

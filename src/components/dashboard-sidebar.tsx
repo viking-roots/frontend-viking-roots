@@ -136,7 +136,11 @@ export function DashboardSidebar() {
       <nav className="flex w-full gap-1 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-1 lg:flex-col lg:overflow-visible lg:px-3">
         {visibleNavItems.map((item) => {
           // Check if pathname starts with href to keep it active on subpages
-          const isActive = location.pathname === item.href || location.pathname.startsWith(`${item.href}/`);
+          // Special case for Home (/dashboard) so it doesn't match /dashboard/upload
+          const isActive = 
+            item.href === "/dashboard" 
+              ? location.pathname === "/dashboard"
+              : location.pathname === item.href || location.pathname.startsWith(`${item.href}/`);
           
           return (
             <Link
