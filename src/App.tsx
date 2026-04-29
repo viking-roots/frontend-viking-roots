@@ -22,6 +22,7 @@ import FamilyTree from "./pages/FamilyTree";
 import SettingsPage from "./pages/SettingsPage";
 import ConnectionsPage from "./pages/ConnectionsPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import EventsPage from "./pages/EventsPage";
 import { Layout} from "@/components/Layout";
 import { DashboardSidebarLayout } from "@/components/DashboardSidebarLayout"; // You'll need to create this
 
@@ -59,6 +60,7 @@ function App() {
           <Route path="/ancestor/add" element={<ManualAncestoryEntry />} /> // TODO: This is currenlty inaccessible and the page also needs modifications 
           <Route path="/familytree" element={<FamilyTree />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/dashboard/events" element={<EventsPage />} />
           <Route path="/admin/users" element={<AdminDashboard />} />
         </Route>
 
