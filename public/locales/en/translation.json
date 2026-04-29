@@ -135,6 +135,8 @@
     "resetting": "Resetting...",
     "sendResetCode": "Send Reset Code",
     "sending": "Sending...",
+    "setPassword": "Set Password",
+    "setPasswordCopy": "Choose a password to finish setting up your account.",
     "signIn": "SIGN IN",
     "signingIn": "SIGNING IN...",
     "signUp": "Sign Up",
@@ -166,6 +168,7 @@
     },
     "messages": {
       "freshCodeSent": "A fresh verification code was sent.",
+      "passwordSetSuccess": "Password set successfully.",
       "passwordResetSent": "Password reset code sent.",
       "passwordResetSuccess": "Password reset successfully."
     }

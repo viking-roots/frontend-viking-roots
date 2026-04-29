@@ -135,6 +135,8 @@
     "resetting": "[Ojibway translation needed: Resetting...]",
     "sendResetCode": "[Ojibway translation needed: Send Reset Code]",
     "sending": "[Ojibway translation needed: Sending...]",
+    "setPassword": "[Ojibway translation needed: Set Password]",
+    "setPasswordCopy": "[Ojibway translation needed: Choose a password to finish setting up your account.]",
     "signIn": "[Ojibway translation needed: SIGN IN]",
     "signingIn": "[Ojibway translation needed: SIGNING IN...]",
     "signUp": "[Ojibway translation needed: Sign Up]",
@@ -166,6 +168,7 @@
     },
     "messages": {
       "freshCodeSent": "[Ojibway translation needed: A fresh verification code was sent.]",
+      "passwordSetSuccess": "[Ojibway translation needed: Password set successfully.]",
       "passwordResetSent": "[Ojibway translation needed: Password reset code sent.]",
       "passwordResetSuccess": "[Ojibway translation needed: Password reset successfully.]"
     }

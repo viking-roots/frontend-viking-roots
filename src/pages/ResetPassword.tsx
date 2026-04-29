@@ -12,10 +12,14 @@ export default function ResetPassword() {
   const { t } = useTranslation();
   const location = useLocation();
   const state = location.state as ResetLocationState | null;
-  const queryEmail = new URLSearchParams(location.search).get('email') || '';
+  const queryParams = new URLSearchParams(location.search);
+  const queryEmail = queryParams.get('email') || '';
+  const queryToken = queryParams.get('token') || '';
+  const isInviteSetup = queryParams.get('source') === 'invite' || Boolean(queryToken);
+  const hasTokenFromLink = Boolean(queryToken);
 
   const [email, setEmail] = useState(state?.email || queryEmail);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(queryToken);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -51,7 +55,7 @@ export default function ResetPassword() {
       }
 
       setIsComplete(true);
-      setMessage(data.message || t('auth.messages.passwordResetSuccess'));
+      setMessage(isInviteSetup ? t('auth.messages.passwordSetSuccess') : data.message || t('auth.messages.passwordResetSuccess'));
       setToken('');
       setNewPassword('');
       setConfirmPassword('');
@@ -66,8 +70,8 @@ export default function ResetPassword() {
     <div className="auth-page">
       <main className="auth-main">
         <div className="auth-card">
-          <h1>{t('auth.resetPassword')}</h1>
-          <p>{t('auth.resetCopy')}</p>
+          <h1>{isInviteSetup ? t('auth.setPassword') : t('auth.resetPassword')}</h1>
+          <p>{isInviteSetup ? t('auth.setPasswordCopy') : t('auth.resetCopy')}</p>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <label>
@@ -77,20 +81,23 @@ export default function ResetPassword() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
+                readOnly={hasTokenFromLink}
                 autoFocus={!email}
               />
             </label>
 
-            <label>
-              {t('auth.resetCode')}
-              <input
-                type="text"
-                value={token}
-                onChange={(event) => setToken(event.target.value)}
-                required
-                autoFocus={Boolean(email)}
-              />
-            </label>
+            {!hasTokenFromLink && (
+              <label>
+                {t('auth.resetCode')}
+                <input
+                  type="text"
+                  value={token}
+                  onChange={(event) => setToken(event.target.value)}
+                  required
+                  autoFocus={Boolean(email)}
+                />
+              </label>
+            )}
 
             <label>
               {t('auth.newPassword')}
@@ -99,6 +106,7 @@ export default function ResetPassword() {
                 value={newPassword}
                 onChange={(event) => setNewPassword(event.target.value)}
                 required
+                autoFocus={Boolean(email && token)}
               />
             </label>
 
@@ -113,7 +121,7 @@ export default function ResetPassword() {
             </label>
 
             <button type="submit" disabled={isLoading || isComplete}>
-              {isLoading ? t('auth.resetting') : t('auth.resetPassword')}
+              {isLoading ? t('auth.resetting') : isInviteSetup ? t('auth.setPassword') : t('auth.resetPassword')}
             </button>
           </form>
 
