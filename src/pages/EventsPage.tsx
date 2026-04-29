@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 export default function EventsPage() {
-  const { t } = useTranslation();
+  useTranslation();
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
